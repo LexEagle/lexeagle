@@ -1,141 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Lex Eagle - Home</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome for icons -->
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
     <style>
-        /* Global & Reset Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: "Poppins", sans-serif;
-            background: #f8f9fa;
-            color: #333;
-            overflow-x: hidden;
-            cursor: none;
-        }
-        html {
-            scroll-behavior: smooth;
-        }
+      /* Global & Reset Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+        background: #f8f9fa;
+        color: #333;
+        overflow-x: hidden;
+        cursor: none;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
 
-        /* Custom Cursor */
-        .cursor,
-        .cursor-follower {
-            position: fixed;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            z-index: 10000;
-        }
-        .cursor {
-            width: 15px;
-            height: 15px;
-            background: #f1c40f;
-            border-radius: 50%;
-            transition: transform 0.1s ease-out;
-            mix-blend-mode: difference;
-        }
-        .cursor-follower {
-            width: 40px;
-            height: 40px;
-            border: 2px solid #f1c40f;
-            border-radius: 50%;
-            transition: transform 0.15s ease-out;
-            opacity: 0.5;
-        }
+      /* Custom Cursor */
+      .cursor,
+      .cursor-follower {
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        z-index: 10000;
+      }
+      .cursor {
+        width: 15px;
+        height: 15px;
+        background: #f1c40f;
+        border-radius: 50%;
+        transition: transform 0.1s ease-out;
+        mix-blend-mode: difference;
+      }
+      .cursor-follower {
+        width: 40px;
+        height: 40px;
+        border: 2px solid #f1c40f;
+        border-radius: 50%;
+        transition: transform 0.15s ease-out;
+        opacity: 0.5;
+      }
 
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: #2c3e50;
-            padding: 15px 0;
-            text-align: center;
-            z-index: 1000;
-        }
-        nav a {
-            color: #fff;
-            margin: 0 15px;
-            text-decoration: none;
-            font-size: 1.1rem;
-            position: relative;
-            padding: 10px 5px;
-            transition: color 0.3s ease;
-        }
-        nav a::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 0;
-            height: 2px;
-            background: #f1c40f;
-            transition: width 0.3s ease;
-        }
-        nav a:hover::after {
-            width: 100%;
-        }
+      /* Navigation */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: #2c3e50;
+        padding: 15px 0;
+        text-align: center;
+        z-index: 1000;
+      }
+      nav a {
+        color: #fff;
+        margin: 0 15px;
+        text-decoration: none;
+        font-size: 1.1rem;
+        position: relative;
+        padding: 10px 5px;
+        transition: color 0.3s ease;
+      }
+      nav a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 2px;
+        background: #f1c40f;
+        transition: width 0.3s ease;
+      }
+      nav a:hover::after {
+        width: 100%;
+      }
 
-        /* Hero Header */
-        header {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-                url("https://source.unsplash.com/1600x900/?law,court,india") center/cover no-repeat;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: #fff;
-            overflow: hidden;
+      /* Hero Header */
+      header {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+          url("https://source.unsplash.com/1600x900/?law,court,india")
+            center/cover no-repeat;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: #fff;
+        overflow: hidden;
+      }
+      header h1 {
+        font-size: 4rem;
+        animation: slideDown 1.5s ease-out forwards;
+        opacity: 0;
+      }
+      header p {
+        font-size: 1.5rem;
+        margin-top: 20px;
+        animation: slideUp 1.5s ease-out forwards;
+        opacity: 0;
+      }
+      .cta-btn {
+        margin-top: 30px;
+        padding: 15px 30px;
+        font-size: 1.1rem;
+        color: #fff;
+        background: #f1c40f;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.3s ease;
+      }
+      .cta-btn:hover {
+        background: #d4ac0d;
+        transform: scale(1.05);
+      }
+      @keyframes slideDown {
+        0% {
+          transform: translateY(-50px);
+          opacity: 0;
         }
-        header h1 {
-            font-size: 4rem;
-            animation: slideDown 1.5s ease-out forwards;
-            opacity: 0;
+        100% {
+          transform: translateY(0);
+          opacity: 1;
         }
-        header p {
-            font-size: 1.5rem;
-            margin-top: 20px;
-            animation: slideUp 1.5s ease-out forwards;
-            opacity: 0;
+      }
+      @keyframes slideUp {
+        0% {
+          transform: translateY(50px);
+          opacity: 0;
         }
-        .cta-btn {
-            margin-top: 30px;
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            color: #fff;
-            background: #f1c40f;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.3s ease;
+        100% {
+          transform: translateY(0);
+          opacity: 1;
         }
-        .cta-btn:hover {
-            background: #d4ac0d;
-            transform: scale(1.05);
-        }
-        @keyframes slideDown {
-            0% {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            100% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        @keyframes slideUp {
-            0% {
-                transform: translateY(50px);
-                opacity
+      }
+
+      /* Footer with Social Links */
+      footer {
+        background: #2c3e50;
+        color: #fff;
+        text-align: center;
+        padding: 30px 20px;
+      }
+      .socials {
+        margin-bottom: 15px;
+      }
+      .socials a {
+        color: #fff;
+        margin: 0 10px;
+        font-size: 1.5rem;
+        transition: color 0.3s ease;
+      }
+      .socials a:hover {
+        color: #f1c40f;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Custom Cursor Elements -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Navigation -->
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="blog.html">Blog</a>
+      <a href="team.html">Our Team</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <header>
+      <h1>Lex Eagle</h1>
+      <p>Expert Legal Solutions with Integrity</p>
+      <button class="cta-btn" onclick="location.href='about.html'">
+        Learn More
+      </button>
+    </header>
+
+    <!-- Footer -->
+    <footer>
+      <div class="socials">
+        <a href="https://wa.me/your-number" target="_blank"
+          ><i class="fab fa-whatsapp"></i
+        ></a>
+        <a href="https://t.me/your-channel" target="_blank"
+          ><i class="fab fa-telegram"></i
+        ></a>
+        <a href="https://facebook.com/yourpage" target="_blank"
+          ><i class="fab fa-facebook"></i
+        ></a>
+        <a href="https://twitter.com/yourprofile" target="_blank"
+          ><i class="fab fa-twitter"></i
+        ></a>
+        <a href="https://instagram.com/yourprofile" target="_blank"
+          ><i class="fab fa-instagram"></i
+        ></a>
+        <a href="https://linkedin.com/in/yourprofile" target="_blank"
+          ><i class="fab fa-linkedin"></i
+        ></a>
+      </div>
+      <p>&copy; 2025 Lex Eagle. All rights reserved.</p>
+    </footer>
+
+    <script>
+      // Custom Cursor Animation
+      const cursor = document.querySelector(".cursor");
+      const follower = document.querySelector(".cursor-follower");
+      let mouseX = 0,
+        mouseY = 0,
+        followerX = 0,
+        followerY = 0;
+      document.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        cursor.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+      });
+      function animateFollower() {
+        followerX += (mouseX - followerX) * 0.15;
+        followerY += (mouseY - followerY) * 0.15;
+        follower.style.transform = `translate(${followerX}px, ${followerY}px)`;
+        requestAnimationFrame(animateFollower);
+      }
+      animateFollower();
+    </script>
+  </body>
+</html>
