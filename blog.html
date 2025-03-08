@@ -4,143 +4,156 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Lex Eagle - Blog</title>
+    <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
+    <!-- Font Awesome for icons -->
     <script
       src="https://kit.fontawesome.com/a076d05399.js"
       crossorigin="anonymous"
     ></script>
     <style>
-      /* Global Styles */
+      /* ============ Global Reset & Fonts ============ */
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
-      body {
-        font-family: "Poppins", sans-serif;
-        background: #f8f9fa;
-        color: #333;
-        overflow-x: hidden;
-        cursor: none;
-      }
       html {
         scroll-behavior: smooth;
       }
-
-      /* Custom Cursor */
-      .cursor,
-      .cursor-follower {
-        position: fixed;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        transform: translate(-50%, -50%);
-        z-index: 10000;
-      }
-      .cursor {
-        width: 15px;
-        height: 15px;
-        background: #f1c40f;
-        border-radius: 50%;
-        transition: transform 0.1s ease-out;
-        mix-blend-mode: difference;
-      }
-      .cursor-follower {
-        width: 40px;
-        height: 40px;
-        border: 2px solid #f1c40f;
-        border-radius: 50%;
-        transition: transform 0.15s ease-out;
-        opacity: 0.5;
+      body {
+        font-family: "Poppins", sans-serif;
+        background: #f5f7fa;
+        color: #2c3e50;
+        overflow-x: hidden;
+        padding-top: 70px; /* space for fixed nav */
       }
 
-      /* Navigation */
+      /* ============ Navigation (similar to index) ============ */
       nav {
         position: fixed;
         top: 0;
         width: 100%;
-        background: #2c3e50;
+        background: #2980b9;
         padding: 15px 0;
         text-align: center;
         z-index: 1000;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
       nav a {
-        color: #fff;
+        color: #ecf0f1;
         margin: 0 15px;
         text-decoration: none;
         font-size: 1.1rem;
-        position: relative;
         padding: 10px 5px;
         transition: color 0.3s ease;
       }
-      nav a::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 0;
-        height: 2px;
-        background: #f1c40f;
-        transition: width 0.3s ease;
-      }
-      nav a:hover::after {
-        width: 100%;
+      nav a:hover {
+        color: #f1c40f;
       }
 
-      /* Blog Section */
-      section {
-        padding: 100px 20px;
-        max-width: 1200px;
-        margin: 0 auto;
-        opacity: 0;
-        transform: translateY(30px);
-        transition: opacity 1s ease-out, transform 1s ease-out;
-      }
-      section.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-      section h2 {
-        font-size: 2.5rem;
-        margin-bottom: 20px;
+      /* ============ Banner/Header ============ */
+      header.banner {
+        background: url("https://source.unsplash.com/1600x400/?law,library")
+          center/cover no-repeat;
+        padding: 60px 20px;
         text-align: center;
+        color: #fff;
+        position: relative;
       }
+      header.banner::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(41, 128, 185, 0.7);
+      }
+      header.banner h1 {
+        position: relative;
+        font-size: 3rem;
+        z-index: 1;
+      }
+      header.banner p {
+        position: relative;
+        font-size: 1.2rem;
+        margin-top: 10px;
+        z-index: 1;
+      }
+
+      /* ============ Blog Controls (Search & Filters) ============ */
+      .blog-controls {
+        max-width: 1200px;
+        margin: 40px auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+      }
+      .blog-controls .search-box input {
+        padding: 10px 15px;
+        width: 250px;
+        border: 1px solid #ccc;
+        border-radius: 30px;
+        outline: none;
+      }
+      .blog-controls .filter-options {
+        margin-top: 10px;
+      }
+      .blog-controls .filter-options label {
+        margin-right: 15px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .blog-controls .filter-options input {
+        margin-right: 5px;
+        cursor: pointer;
+      }
+
+      /* ============ Blog Posts Grid ============ */
       .blog-grid {
+        max-width: 1200px;
+        margin: 20px auto;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 40px;
-        margin-top: 40px;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+        padding: 0 20px;
       }
       .blog-post {
-        background: #f8f8f8;
-        padding: 20px;
+        background: #fff;
         border-radius: 15px;
+        overflow: hidden;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transition: transform 0.3s ease;
       }
       .blog-post:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        transform: translateY(-8px);
       }
       .blog-post img {
         width: 100%;
-        height: auto;
-        border-radius: 10px;
-        margin-bottom: 15px;
+        display: block;
+        height: 200px;
+        object-fit: cover;
       }
-      .blog-post h3 {
+      .blog-post .post-content {
+        padding: 20px;
+      }
+      .blog-post .post-content h3 {
         font-size: 1.8rem;
         margin-bottom: 10px;
+        color: #2980b9;
       }
-      .blog-post p {
+      .blog-post .post-content p {
         font-size: 1rem;
-        line-height: 1.5;
+        line-height: 1.6;
         margin-bottom: 15px;
       }
-      .blog-post a {
+      .blog-post .post-content a {
         display: inline-block;
         background: #f1c40f;
         color: #2c3e50;
@@ -149,34 +162,98 @@
         text-decoration: none;
         transition: background 0.3s ease;
       }
-      .blog-post a:hover {
+      .blog-post .post-content a:hover {
         background: #d4ac0d;
       }
 
-      /* Footer */
+      /* ============ Load More Button ============ */
+      .load-more-container {
+        text-align: center;
+        margin: 40px 0;
+      }
+      .load-more-btn {
+        padding: 12px 30px;
+        font-size: 1rem;
+        background: #2980b9;
+        color: #ecf0f1;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+      .load-more-btn:hover {
+        background: #f1c40f;
+        color: #2c3e50;
+      }
+
+      /* ============ Admin Post Form (for easy posting) ============ */
+      #admin-post {
+        padding: 40px 20px;
+        max-width: 600px;
+        margin: 40px auto;
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+      #admin-post h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #2980b9;
+      }
+      #admin-post form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      #admin-post input,
+      #admin-post textarea {
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+        width: 100%;
+      }
+      #admin-post button {
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        background: #2980b9;
+        color: #ecf0f1;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+      #admin-post button:hover {
+        background: #f1c40f;
+        color: #2c3e50;
+      }
+
+      /* ============ Footer ============ */
       footer {
-        background: #2c3e50;
-        color: #fff;
+        background: #2980b9;
+        color: #ecf0f1;
         text-align: center;
         padding: 30px 20px;
+        margin-top: 40px;
       }
-      .socials {
-        margin-bottom: 15px;
-      }
-      .socials a {
-        color: #fff;
+      footer .socials a {
+        color: #ecf0f1;
         margin: 0 10px;
         font-size: 1.5rem;
+        text-decoration: none;
         transition: color 0.3s ease;
       }
-      .socials a:hover {
+      footer .socials a:hover {
         color: #f1c40f;
+      }
+      footer p {
+        margin-top: 10px;
+        font-size: 0.9rem;
       }
     </style>
   </head>
   <body>
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
+    <!-- Navigation -->
     <nav>
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
@@ -185,22 +262,101 @@
       <a href="team.html">Our Team</a>
       <a href="contact.html">Contact</a>
     </nav>
-    <section id="blog">
-      <h2>Latest Blog Posts</h2>
-      <div class="blog-grid" id="blog-posts">
-        <p>Loading posts...</p>
+
+    <!-- Banner/Header -->
+    <header class="banner">
+      <h1>Our Blog</h1>
+      <p>Insights, updates, and in-depth articles from Lex Eagle</p>
+    </header>
+
+    <!-- Blog Controls: Search & Filters -->
+    <div class="blog-controls">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search posts..." />
       </div>
+      <div class="filter-options">
+        <label>
+          <input
+            type="checkbox"
+            class="filter-checkbox"
+            value="corporate"
+            checked
+          />
+          Corporate
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            class="filter-checkbox"
+            value="criminal"
+            checked
+          />
+          Criminal
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            class="filter-checkbox"
+            value="family"
+            checked
+          />
+          Family
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            class="filter-checkbox"
+            value="realestate"
+            checked
+          />
+          Real Estate
+        </label>
+      </div>
+    </div>
+
+    <!-- Blog Posts Grid -->
+    <div class="blog-grid" id="blogPosts">
+      <p style="text-align: center; width: 100%">Loading posts...</p>
+    </div>
+
+    <!-- Load More Button -->
+    <div class="load-more-container">
+      <button class="load-more-btn" id="loadMoreBtn">Load More</button>
+    </div>
+
+    <!-- Admin Post Form -->
+    <section id="admin-post">
+      <h2>Add New Blog Post</h2>
+      <form id="post-form">
+        <input type="text" id="post-title" placeholder="Post Title" required />
+        <textarea
+          id="post-excerpt"
+          rows="3"
+          placeholder="Post Excerpt"
+          required
+        ></textarea>
+        <input type="text" id="post-image" placeholder="Image URL" required />
+        <input
+          type="text"
+          id="post-link"
+          placeholder="Read More Link"
+          required
+        />
+        <input
+          type="text"
+          id="post-topics"
+          placeholder="Topics (comma-separated)"
+          required
+        />
+        <button type="submit">Add Post</button>
+      </form>
     </section>
+
+    <!-- Footer -->
     <footer>
       <div class="socials">
-        <a href="https://wa.me/your-number" target="_blank"
-          ><i class="fab fa-whatsapp"></i
-        ></a>
-        <a href="https://t.me/your-channel" target="_blank"
-          ><i class="fab fa-telegram"></i
-        ></a>
         <a href="https://facebook.com/yourpage" target="_blank"
-          ><i class="fab fa-facebook"></i
+          ><i class="fab fa-facebook-f"></i
         ></a>
         <a href="https://twitter.com/yourprofile" target="_blank"
           ><i class="fab fa-twitter"></i
@@ -209,83 +365,157 @@
           ><i class="fab fa-instagram"></i
         ></a>
         <a href="https://linkedin.com/in/yourprofile" target="_blank"
-          ><i class="fab fa-linkedin"></i
+          ><i class="fab fa-linkedin-in"></i
         ></a>
       </div>
       <p>&copy; 2025 Lex Eagle. All rights reserved.</p>
     </footer>
 
     <script>
-      // Reveal sections on scroll
-      const sections = document.querySelectorAll("section");
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("visible");
-              observer.unobserve(entry.target);
-            }
-          });
+      // Sample blog posts data (simulate CMS feed)
+      let posts = [
+        {
+          title: "Navigating Corporate Law",
+          excerpt:
+            "An overview of best practices and common pitfalls in corporate legal structures...",
+          image: "https://source.unsplash.com/600x400/?corporate,law",
+          link: "#",
+          topics: ["corporate"],
         },
-        { threshold: 0.2 }
-      );
-      sections.forEach((section) => observer.observe(section));
+        {
+          title: "Defending Your Rights in Criminal Cases",
+          excerpt:
+            "Explore effective defense strategies and the role of legal advocacy in criminal defense...",
+          image: "https://source.unsplash.com/600x400/?criminal,law",
+          link: "#",
+          topics: ["criminal"],
+        },
+        {
+          title: "Family Law: Balancing Emotions and Legality",
+          excerpt:
+            "A comprehensive look into family law matters and how to navigate sensitive legal challenges...",
+          image: "https://source.unsplash.com/600x400/?family,law",
+          link: "#",
+          topics: ["family"],
+        },
+        {
+          title: "Understanding Real Estate Transactions",
+          excerpt:
+            "Key considerations in property law, real estate transactions, and dispute resolution...",
+          image: "https://source.unsplash.com/600x400/?realestate,law",
+          link: "#",
+          topics: ["realestate"],
+        },
+        {
+          title: "Corporate Mergers and Acquisitions Explained",
+          excerpt:
+            "Delve into the complexities of mergers and acquisitions and learn about critical legal considerations...",
+          image: "https://source.unsplash.com/600x400/?merger,corporate",
+          link: "#",
+          topics: ["corporate"],
+        },
+      ];
 
-      // Custom Cursor
-      const cursor = document.querySelector(".cursor");
-      const follower = document.querySelector(".cursor-follower");
-      let mouseX = 0,
-        mouseY = 0,
-        followerX = 0,
-        followerY = 0;
-      document.addEventListener("mousemove", (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        cursor.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-      });
-      function animateFollower() {
-        followerX += (mouseX - followerX) * 0.15;
-        followerY += (mouseY - followerY) * 0.15;
-        follower.style.transform = `translate(${followerX}px, ${followerY}px)`;
-        requestAnimationFrame(animateFollower);
-      }
-      animateFollower();
+      // Pagination variables
+      let postsPerPage = 3;
+      let currentPage = 1;
 
-      // Fetch WordPress Posts
-      const wordpressURL =
-        "https://yourwordpresssite.com/wp-json/wp/v2/posts?per_page=10&_embed";
-      fetch(wordpressURL)
-        .then((response) => response.json())
-        .then((posts) => {
-          const blogContainer = document.getElementById("blog-posts");
-          blogContainer.innerHTML = "";
-          posts.forEach((post) => {
-            // Get featured image if available
-            let imgUrl = "";
-            if (
-              post._embedded &&
-              post._embedded["wp:featuredmedia"] &&
-              post._embedded["wp:featuredmedia"][0]
-            ) {
-              imgUrl = post._embedded["wp:featuredmedia"][0].source_url;
-            } else {
-              imgUrl = "https://via.placeholder.com/400x250?text=No+Image";
-            }
-            const postEl = document.createElement("div");
-            postEl.classList.add("blog-post");
-            postEl.innerHTML = `
-            <img src="${imgUrl}" alt="${post.title.rendered}">
-            <h3>${post.title.rendered}</h3>
-            <p>${post.excerpt.rendered.replace(/<[^>]+>/g, "")}</p>
+      // Render posts based on search, filter, and pagination
+      function renderPosts() {
+        const blogContainer = document.getElementById("blogPosts");
+        blogContainer.innerHTML = "";
+        const searchQuery = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const activeFilters = Array.from(
+          document.querySelectorAll(".filter-checkbox:checked")
+        ).map((cb) => cb.value);
+
+        // Filter posts based on search query and topics
+        let filteredPosts = posts.filter((post) => {
+          const matchesSearch =
+            post.title.toLowerCase().includes(searchQuery) ||
+            post.excerpt.toLowerCase().includes(searchQuery);
+          const matchesFilter = post.topics.some((topic) =>
+            activeFilters.includes(topic)
+          );
+          return matchesSearch && matchesFilter;
+        });
+
+        // Determine posts to show for current page
+        const postsToShow = filteredPosts.slice(0, currentPage * postsPerPage);
+
+        if (postsToShow.length === 0) {
+          blogContainer.innerHTML =
+            "<p style='text-align:center; width:100%;'>No posts found.</p>";
+          return;
+        }
+
+        postsToShow.forEach((post) => {
+          const postEl = document.createElement("div");
+          postEl.classList.add("blog-post");
+          postEl.innerHTML = `
+          <img src="${post.image}" alt="${post.title}">
+          <div class="post-content">
+            <h3>${post.title}</h3>
+            <p>${post.excerpt}</p>
             <a href="${post.link}" target="_blank">Read More</a>
-          `;
-            blogContainer.appendChild(postEl);
-          });
-        })
-        .catch((err) => {
-          document.getElementById("blog-posts").innerHTML =
-            "<p>Error loading posts.</p>";
-          console.error("Error fetching posts:", err);
+          </div>
+        `;
+          blogContainer.appendChild(postEl);
+        });
+
+        // Show or hide the Load More button
+        document.getElementById("loadMoreBtn").style.display =
+          postsToShow.length < filteredPosts.length ? "inline-block" : "none";
+      }
+
+      // Search and Filter event listeners
+      document.getElementById("searchInput").addEventListener("input", () => {
+        currentPage = 1;
+        renderPosts();
+      });
+      document.querySelectorAll(".filter-checkbox").forEach((checkbox) => {
+        checkbox.addEventListener("change", () => {
+          currentPage = 1;
+          renderPosts();
+        });
+      });
+
+      // Load More functionality
+      document.getElementById("loadMoreBtn").addEventListener("click", () => {
+        currentPage++;
+        renderPosts();
+      });
+
+      // Initial render of posts
+      renderPosts();
+
+      // Admin Post Form submission for adding new posts
+      document
+        .getElementById("post-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const title = document.getElementById("post-title").value.trim();
+          const excerpt = document.getElementById("post-excerpt").value.trim();
+          const image = document.getElementById("post-image").value.trim();
+          const link = document.getElementById("post-link").value.trim();
+          const topicsInput = document
+            .getElementById("post-topics")
+            .value.trim();
+          const topics = topicsInput
+            .split(",")
+            .map((t) => t.trim().toLowerCase());
+
+          if (title && excerpt && image && link && topics.length > 0) {
+            const newPost = { title, excerpt, image, link, topics };
+            posts.push(newPost);
+            renderPosts();
+            this.reset();
+            alert("New post added successfully!");
+          } else {
+            alert("Please fill out all fields.");
+          }
         });
     </script>
   </body>

@@ -15,24 +15,24 @@
       crossorigin="anonymous"
     ></script>
     <style>
-      /* Global & Reset Styles */
+      /* ============ Global Reset & Fonts ============ */
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
-      body {
-        font-family: "Poppins", sans-serif;
-        background: #f8f9fa;
-        color: #333;
-        overflow-x: hidden;
-        cursor: none;
-      }
       html {
         scroll-behavior: smooth;
       }
+      body {
+        font-family: "Poppins", sans-serif;
+        /* New gradient background from deep navy to purple */
+        background: linear-gradient(135deg, #0a0f29, #2e1a47);
+        color: #e0e0e0;
+        overflow-x: hidden;
+      }
 
-      /* Custom Cursor */
+      /* ============ Custom Cursor Styles ============ */
       .cursor,
       .cursor-follower {
         position: fixed;
@@ -43,37 +43,38 @@
         z-index: 10000;
       }
       .cursor {
-        width: 15px;
-        height: 15px;
-        background: #f1c40f;
+        width: 10px;
+        height: 10px;
+        background: #ffcc00;
         border-radius: 50%;
-        transition: transform 0.1s ease-out;
         mix-blend-mode: difference;
+        transition: transform 0.1s ease-out;
       }
       .cursor-follower {
         width: 40px;
         height: 40px;
-        border: 2px solid #f1c40f;
+        border: 2px solid #ffcc00;
         border-radius: 50%;
         transition: transform 0.15s ease-out;
-        opacity: 0.5;
+        opacity: 0.7;
       }
 
-      /* Navigation */
+      /* ============ Navigation Styles ============ */
       nav {
         position: fixed;
         top: 0;
         width: 100%;
-        background: #2c3e50;
+        background: rgba(10, 15, 41, 0.85);
         padding: 15px 0;
         text-align: center;
         z-index: 1000;
+        backdrop-filter: blur(8px);
       }
       nav a {
-        color: #fff;
+        color: #ffcc00;
         margin: 0 15px;
         text-decoration: none;
-        font-size: 1.1rem;
+        font-size: 1rem;
         position: relative;
         padding: 10px 5px;
         transition: color 0.3s ease;
@@ -85,148 +86,354 @@
         bottom: 0;
         width: 0;
         height: 2px;
-        background: #f1c40f;
+        background: #ffcc00;
         transition: width 0.3s ease;
       }
       nav a:hover::after {
         width: 100%;
       }
 
-      /* Hero Header */
+      /* ============ Hero Section Styles ============ */
       header {
         position: relative;
         width: 100%;
         height: 100vh;
-        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-          url("https://source.unsplash.com/1600x900/?law,court,india")
-            center/cover no-repeat;
+        /* Updated background image overlayed with gradient for better contrast */
+        background: linear-gradient(
+            135deg,
+            rgba(10, 15, 41, 0.85),
+            rgba(10, 15, 41, 0.85)
+          ),
+          url("https://source.unsplash.com/1600x900/?law,office") center/cover
+            no-repeat;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         text-align: center;
-        color: #fff;
-        overflow: hidden;
+        padding: 0 20px;
       }
       header h1 {
         font-size: 4rem;
-        animation: slideDown 1.5s ease-out forwards;
+        margin-bottom: 10px;
         opacity: 0;
+        animation: fadeInDown 1s forwards;
       }
       header p {
         font-size: 1.5rem;
-        margin-top: 20px;
-        animation: slideUp 1.5s ease-out forwards;
+        margin-bottom: 20px;
+        max-width: 800px;
         opacity: 0;
+        animation: fadeInUp 1s forwards 0.5s;
+      }
+      header .tagline {
+        font-size: 1.2rem;
+        margin-bottom: 40px;
+        font-style: italic;
+        color: #c0c0c0;
+        opacity: 0;
+        animation: fadeInUp 1s forwards 0.7s;
       }
       .cta-btn {
-        margin-top: 30px;
         padding: 15px 30px;
         font-size: 1.1rem;
-        color: #fff;
-        background: #f1c40f;
+        background: #ffcc00;
+        color: #0a0f29;
         border: none;
         border-radius: 30px;
         cursor: pointer;
         transition: background 0.3s ease, transform 0.3s ease;
+        opacity: 0;
+        animation: fadeInUp 1s forwards 1s;
       }
       .cta-btn:hover {
-        background: #d4ac0d;
+        background: #e6b800;
         transform: scale(1.05);
       }
-      @keyframes slideDown {
-        0% {
-          transform: translateY(-50px);
+      /* ============ Scroll Down Arrow ============ */
+      .scroll-down {
+        position: absolute;
+        bottom: 20px;
+        font-size: 2.5rem;
+        color: #ffcc00;
+        cursor: pointer;
+        opacity: 0;
+        z-index: 1001;
+        animation: fadeInUp 1s forwards 1.2s, bounce 2s infinite 1.5s;
+      }
+
+      /* ============ Keyframes for Animations ============ */
+      @keyframes fadeInDown {
+        from {
           opacity: 0;
+          transform: translateY(-50px);
         }
-        100% {
-          transform: translateY(0);
+        to {
           opacity: 1;
+          transform: translateY(0);
         }
       }
-      @keyframes slideUp {
-        0% {
-          transform: translateY(50px);
+      @keyframes fadeInUp {
+        from {
           opacity: 0;
+          transform: translateY(50px);
         }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
         100% {
           transform: translateY(0);
-          opacity: 1;
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
         }
       }
 
-      /* Footer with Social Links */
-      footer {
-        background: #2c3e50;
-        color: #fff;
-        text-align: center;
-        padding: 30px 20px;
+      /* ============ Section Base Styles ============ */
+      .section {
+        padding: 80px 20px;
       }
-      .socials {
+      .section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+        position: relative;
+        display: inline-block;
+        opacity: 0;
+        animation: fadeInUp 1s forwards;
+      }
+      .section h2::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -5px;
+        width: 50%;
+        height: 3px;
+        background: #ffcc00;
+      }
+      /* Grid layout for content cards */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        opacity: 0;
+        animation: fadeInUp 1s forwards 0.5s;
+      }
+      /* Card styles for services and team members */
+      .card {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      }
+      .card h3 {
+        font-size: 1.8rem;
         margin-bottom: 15px;
       }
-      .socials a {
-        color: #fff;
+      .card p {
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      /* ============ About Section Styles ============ */
+      #about {
+        background: #1c1c2e;
+      }
+      #about .about-content {
+        max-width: 800px;
+        margin: auto;
+        text-align: left;
+      }
+      #about p {
+        margin-bottom: 20px;
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      /* ============ Footer Contact & Socials ============ */
+      footer {
+        background: #0a0f29;
+        padding: 40px 20px;
+        text-align: center;
+        position: relative;
+      }
+      footer .footer-contact {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        font-size: 0.9rem;
+      }
+      footer .footer-contact a {
+        color: #ffcc00;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: color 0.3s ease;
+      }
+      footer .footer-contact a:hover {
+        color: #e6b800;
+      }
+      footer .socials {
+        margin-bottom: 20px;
+      }
+      footer .socials a {
+        color: #ffcc00;
         margin: 0 10px;
         font-size: 1.5rem;
         transition: color 0.3s ease;
       }
-      .socials a:hover {
-        color: #f1c40f;
+      footer .socials a:hover {
+        color: #e6b800;
+      }
+      footer p {
+        font-size: 0.8rem;
       }
     </style>
   </head>
   <body>
-    <!-- Custom Cursor Elements -->
+    <!-- ============ Custom Cursor Elements ============ -->
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
 
-    <!-- Navigation -->
+    <!-- ============ Navigation Section ============ -->
     <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="services.html">Services</a>
-      <a href="blog.html">Blog</a>
-      <a href="team.html">Our Team</a>
-      <a href="contact.html">Contact</a>
+      <a href="#">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#team">Our Team</a>
+      <a href="#contact">Contact</a>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- ============ Hero Section: Trust & Engagement ============ -->
     <header>
       <h1>Lex Eagle</h1>
       <p>Expert Legal Solutions with Integrity</p>
-      <button class="cta-btn" onclick="location.href='about.html'">
-        Learn More
-      </button>
+      <p class="tagline">
+        Trusted by clients for over 20 years – your justice is our mission.
+      </p>
+      <button class="cta-btn">Learn More</button>
+      <!-- Visible, clickable scroll down arrow -->
+      <div
+        class="scroll-down"
+        onclick="document.querySelector('#about').scrollIntoView({ behavior: 'smooth' })"
+      >
+        <i class="fas fa-angle-down"></i>
+      </div>
     </header>
 
-    <!-- Footer -->
-    <footer>
+    <!-- ============ About Section ============ -->
+    <section id="about" class="section">
+      <h2>About Us</h2>
+      <div class="about-content">
+        <p>
+          At Lex Eagle, we are committed to delivering top-notch legal services.
+          Our firm is built on a foundation of integrity, expertise, and a deep
+          understanding of the law.
+        </p>
+        <p>
+          We believe that every client deserves personalized attention and
+          innovative legal strategies. Our diverse team works tirelessly to
+          ensure that justice is not only served but also understood by those we
+          represent.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ Our Services Section ============ -->
+    <section id="services" class="section">
+      <h2>Our Services</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Corporate Law</h3>
+          <p>
+            Tailored legal solutions for businesses of all sizes, ensuring
+            compliance and sustainable growth.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Criminal Law</h3>
+          <p>
+            Defending your rights with experienced legal counsel to achieve fair
+            outcomes.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Family Law</h3>
+          <p>
+            Guiding you through complex family legal matters with sensitivity
+            and professionalism.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Real Estate Law</h3>
+          <p>
+            Expert advice on property transactions, disputes, and investments to
+            protect your interests.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Our Team Section ============ -->
+    <section id="team" class="section">
+      <h2>Our Team</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Neeraj Gogia</h3>
+          <p>Senior Partner with over 20 years of experience.</p>
+        </div>
+        <div class="card">
+          <h3>Jane Smith</h3>
+          <p>Legal Advisor renowned for her strategic insights.</p>
+        </div>
+        <div class="card">
+          <h3>Mike Johnson</h3>
+          <p>Corporate Lawyer dedicated to client success.</p>
+        </div>
+        <div class="card">
+          <h3>Sarah Lee</h3>
+          <p>Family Law Specialist committed to protecting your rights.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Footer Section: Contact & Socials ============ -->
+    <footer id="contact">
+      <div class="footer-contact">
+        <a href="tel:+1234567890"
+          ><i class="fas fa-phone"></i> +1 (234) 567-890</a
+        >
+        <a href="mailto:info@example.com"
+          ><i class="fas fa-envelope"></i> info@example.com</a
+        >
+      </div>
       <div class="socials">
-        <a href="https://wa.me/your-number" target="_blank"
-          ><i class="fab fa-whatsapp"></i
-        ></a>
-        <a href="https://t.me/your-channel" target="_blank"
-          ><i class="fab fa-telegram"></i
-        ></a>
-        <a href="https://facebook.com/yourpage" target="_blank"
-          ><i class="fab fa-facebook"></i
-        ></a>
-        <a href="https://twitter.com/yourprofile" target="_blank"
-          ><i class="fab fa-twitter"></i
-        ></a>
-        <a href="https://instagram.com/yourprofile" target="_blank"
-          ><i class="fab fa-instagram"></i
-        ></a>
-        <a href="https://linkedin.com/in/yourprofile" target="_blank"
-          ><i class="fab fa-linkedin"></i
-        ></a>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
       </div>
       <p>&copy; 2025 Lex Eagle. All rights reserved.</p>
     </footer>
 
+    <!-- ============ Custom Cursor Animation Script ============ -->
     <script>
-      // Custom Cursor Animation
       const cursor = document.querySelector(".cursor");
       const follower = document.querySelector(".cursor-follower");
       let mouseX = 0,
@@ -239,8 +446,8 @@
         cursor.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
       });
       function animateFollower() {
-        followerX += (mouseX - followerX) * 0.15;
-        followerY += (mouseY - followerY) * 0.15;
+        followerX += (mouseX - followerX) * 0.12;
+        followerY += (mouseY - followerY) * 0.12;
         follower.style.transform = `translate(${followerX}px, ${followerY}px)`;
         requestAnimationFrame(animateFollower);
       }

@@ -4,16 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Lex Eagle - Contact</title>
+    <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
+    <!-- Font Awesome for icons -->
     <script
       src="https://kit.fontawesome.com/a076d05399.js"
       crossorigin="anonymous"
     ></script>
     <style>
-      /* Global Styles */
+      /* Global & Reset Styles */
       * {
         margin: 0;
         padding: 0;
@@ -21,8 +23,8 @@
       }
       body {
         font-family: "Poppins", sans-serif;
-        background: #f8f9fa;
-        color: #333;
+        background: #e8f4fc; /* lighter blue background */
+        color: #2c3e50;
         overflow-x: hidden;
         cursor: none;
       }
@@ -43,7 +45,7 @@
       .cursor {
         width: 15px;
         height: 15px;
-        background: #f1c40f;
+        background: #3498db;
         border-radius: 50%;
         transition: transform 0.1s ease-out;
         mix-blend-mode: difference;
@@ -51,7 +53,7 @@
       .cursor-follower {
         width: 40px;
         height: 40px;
-        border: 2px solid #f1c40f;
+        border: 2px solid #3498db;
         border-radius: 50%;
         transition: transform 0.15s ease-out;
         opacity: 0.5;
@@ -62,13 +64,14 @@
         position: fixed;
         top: 0;
         width: 100%;
-        background: #2c3e50;
+        background: #2980b9;
         padding: 15px 0;
         text-align: center;
         z-index: 1000;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
       nav a {
-        color: #fff;
+        color: #ecf0f1;
         margin: 0 15px;
         text-decoration: none;
         font-size: 1.1rem;
@@ -91,29 +94,31 @@
       }
 
       /* Contact Section */
-      section {
+      section#contact {
         padding: 100px 20px;
         max-width: 600px;
         margin: 0 auto;
+        text-align: center;
         opacity: 0;
         transform: translateY(30px);
         transition: opacity 1s ease-out, transform 1s ease-out;
-        text-align: center;
       }
-      section.visible {
+      section#contact.visible {
         opacity: 1;
         transform: translateY(0);
       }
-      section h2 {
+      section#contact h2 {
         font-size: 2.5rem;
         margin-bottom: 20px;
       }
-      section p {
+      section#contact p {
         font-size: 1.1rem;
         line-height: 1.6;
+        margin-bottom: 40px;
       }
+
+      /* Contact Form */
       #contact-form {
-        margin-top: 40px;
         display: flex;
         flex-direction: column;
         gap: 20px;
@@ -130,20 +135,21 @@
         padding: 15px;
         border: none;
         border-radius: 5px;
-        background: #2c3e50;
-        color: #fff;
+        background: #2980b9;
+        color: #ecf0f1;
         font-size: 1rem;
         cursor: pointer;
         transition: background 0.3s ease;
       }
       #contact-form button:hover {
         background: #f1c40f;
+        color: #2c3e50;
       }
 
       /* Footer */
       footer {
-        background: #2c3e50;
-        color: #fff;
+        background: #2980b9;
+        color: #ecf0f1;
         text-align: center;
         padding: 30px 20px;
       }
@@ -151,7 +157,7 @@
         margin-bottom: 15px;
       }
       .socials a {
-        color: #fff;
+        color: #ecf0f1;
         margin: 0 10px;
         font-size: 1.5rem;
         transition: color 0.3s ease;
@@ -162,8 +168,11 @@
     </style>
   </head>
   <body>
+    <!-- Custom Cursor Elements -->
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
+
+    <!-- Navigation -->
     <nav>
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
@@ -172,6 +181,8 @@
       <a href="team.html">Our Team</a>
       <a href="contact.html">Contact</a>
     </nav>
+
+    <!-- Contact Section -->
     <section id="contact">
       <h2>Contact Lex Eagle</h2>
       <p>Have questions or need legal advice? Reach out to us today.</p>
@@ -182,6 +193,8 @@
         <button type="submit">Send Message</button>
       </form>
     </section>
+
+    <!-- Footer -->
     <footer>
       <div class="socials">
         <a href="https://wa.me/your-number" target="_blank"
@@ -205,7 +218,9 @@
       </div>
       <p>&copy; 2025 Lex Eagle. All rights reserved.</p>
     </footer>
+
     <script>
+      // Reveal sections on scroll using Intersection Observer
       const sections = document.querySelectorAll("section");
       const observer = new IntersectionObserver(
         (entries) => {
@@ -220,6 +235,7 @@
       );
       sections.forEach((section) => observer.observe(section));
 
+      // Custom Cursor Animation
       const cursor = document.querySelector(".cursor");
       const follower = document.querySelector(".cursor-follower");
       let mouseX = 0,
@@ -239,7 +255,7 @@
       }
       animateFollower();
 
-      // Handle form submission (this is a simple demo)
+      // Handle form submission (demo)
       document
         .getElementById("contact-form")
         .addEventListener("submit", function (e) {
