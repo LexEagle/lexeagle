@@ -26,7 +26,6 @@
       }
       body {
         font-family: "Poppins", sans-serif;
-        /* New gradient background from deep navy to purple */
         background: linear-gradient(135deg, #0a0f29, #2e1a47);
         color: #e0e0e0;
         overflow-x: hidden;
@@ -65,7 +64,7 @@
         top: 0;
         width: 100%;
         background: rgba(10, 15, 41, 0.85);
-        padding: 15px 0;
+        padding: 15px 20px;
         text-align: center;
         z-index: 1000;
         backdrop-filter: blur(8px);
@@ -92,13 +91,16 @@
       nav a:hover::after {
         width: 100%;
       }
+      /* Active nav link underline stays */
+      nav a.active::after {
+        width: 100%;
+      }
 
       /* ============ Hero Section Styles ============ */
       header {
         position: relative;
         width: 100%;
         height: 100vh;
-        /* Updated background image overlayed with gradient for better contrast */
         background: linear-gradient(
             135deg,
             rgba(10, 15, 41, 0.85),
@@ -150,7 +152,6 @@
         background: #e6b800;
         transform: scale(1.05);
       }
-      /* ============ Scroll Down Arrow ============ */
       .scroll-down {
         position: absolute;
         bottom: 20px;
@@ -161,8 +162,6 @@
         z-index: 1001;
         animation: fadeInUp 1s forwards 1.2s, bounce 2s infinite 1.5s;
       }
-
-      /* ============ Keyframes for Animations ============ */
       @keyframes fadeInDown {
         from {
           opacity: 0;
@@ -199,7 +198,7 @@
         }
       }
 
-      /* ============ Section Base Styles ============ */
+      /* ============ Section & Card Styles ============ */
       .section {
         padding: 80px 20px;
       }
@@ -220,7 +219,6 @@
         height: 3px;
         background: #ffcc00;
       }
-      /* Grid layout for content cards */
       .grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -228,7 +226,6 @@
         opacity: 0;
         animation: fadeInUp 1s forwards 0.5s;
       }
-      /* Card styles for services and team members */
       .card {
         background: rgba(255, 255, 255, 0.1);
         padding: 30px;
@@ -248,7 +245,7 @@
         line-height: 1.6;
       }
 
-      /* ============ About Section Styles ============ */
+      /* ============ About Section ============ */
       #about {
         background: #1c1c2e;
       }
@@ -263,7 +260,7 @@
         line-height: 1.6;
       }
 
-      /* ============ Footer Contact & Socials ============ */
+      /* ============ Footer ============ */
       footer {
         background: #0a0f29;
         padding: 40px 20px;
@@ -304,23 +301,44 @@
       footer p {
         font-size: 0.8rem;
       }
+
+      /* ============ Media Queries for Responsiveness ============ */
+      @media (max-width: 768px) {
+        header h1 {
+          font-size: 3rem;
+        }
+        header p {
+          font-size: 1.2rem;
+        }
+        nav a {
+          margin: 0 10px;
+          font-size: 0.9rem;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .section {
+          padding: 60px 15px;
+        }
+      }
     </style>
   </head>
   <body>
-    <!-- ============ Custom Cursor Elements ============ -->
+    <!-- Custom Cursor -->
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
 
-    <!-- ============ Navigation Section ============ -->
+    <!-- Navigation -->
     <nav>
-      <a href="#">Home</a>
-      <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#team">Our Team</a>
-      <a href="#contact">Contact</a>
+      <a href="index.html" class="active">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#services">Services</a>
+      <a href="index.html#team">Our Team</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="blog.html">Blog</a>
     </nav>
 
-    <!-- ============ Hero Section: Trust & Engagement ============ -->
+    <!-- Hero Section -->
     <header>
       <h1>Lex Eagle</h1>
       <p>Expert Legal Solutions with Integrity</p>
@@ -328,7 +346,6 @@
         Trusted by clients for over 20 years – your justice is our mission.
       </p>
       <button class="cta-btn">Learn More</button>
-      <!-- Visible, clickable scroll down arrow -->
       <div
         class="scroll-down"
         onclick="document.querySelector('#about').scrollIntoView({ behavior: 'smooth' })"
@@ -337,7 +354,7 @@
       </div>
     </header>
 
-    <!-- ============ About Section ============ -->
+    <!-- About Section -->
     <section id="about" class="section">
       <h2>About Us</h2>
       <div class="about-content">
@@ -349,13 +366,12 @@
         <p>
           We believe that every client deserves personalized attention and
           innovative legal strategies. Our diverse team works tirelessly to
-          ensure that justice is not only served but also understood by those we
-          represent.
+          ensure that justice is not only served but also understood.
         </p>
       </div>
     </section>
 
-    <!-- ============ Our Services Section ============ -->
+    <!-- Services Section -->
     <section id="services" class="section">
       <h2>Our Services</h2>
       <div class="grid">
@@ -390,7 +406,7 @@
       </div>
     </section>
 
-    <!-- ============ Our Team Section ============ -->
+    <!-- Team Section -->
     <section id="team" class="section">
       <h2>Our Team</h2>
       <div class="grid">
@@ -413,14 +429,14 @@
       </div>
     </section>
 
-    <!-- ============ Footer Section: Contact & Socials ============ -->
+    <!-- Footer -->
     <footer id="contact">
       <div class="footer-contact">
-        <a href="tel:+1234567890"
-          ><i class="fas fa-phone"></i> +1 (234) 567-890</a
+        <a href="tel:+919891800100"
+          ><i class="fas fa-phone"></i> +91 9891800100</a
         >
-        <a href="mailto:info@example.com"
-          ><i class="fas fa-envelope"></i> info@example.com</a
+        <a href="mailto:lexeagleindia@gmail.com"
+          ><i class="fas fa-envelope"></i> lexeagleindia@gmail.com</a
         >
       </div>
       <div class="socials">
@@ -432,7 +448,7 @@
       <p>&copy; 2025 Lex Eagle. All rights reserved.</p>
     </footer>
 
-    <!-- ============ Custom Cursor Animation Script ============ -->
+    <!-- Custom Cursor Animation Script -->
     <script>
       const cursor = document.querySelector(".cursor");
       const follower = document.querySelector(".cursor-follower");
@@ -443,12 +459,16 @@
       document.addEventListener("mousemove", (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
-        cursor.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+        if (cursor) {
+          cursor.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+        }
       });
       function animateFollower() {
         followerX += (mouseX - followerX) * 0.12;
         followerY += (mouseY - followerY) * 0.12;
-        follower.style.transform = `translate(${followerX}px, ${followerY}px)`;
+        if (follower) {
+          follower.style.transform = `translate(${followerX}px, ${followerY}px)`;
+        }
         requestAnimationFrame(animateFollower);
       }
       animateFollower();
