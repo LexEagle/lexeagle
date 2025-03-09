@@ -1,7 +1,7 @@
 backend:
   name: git-gateway
   publish_mode: editorial_workflow 
-  repo: your-username/your-repo  
+  repo: lexeagle/lexeagle
   branch: main  
   auth_scope: repo 
 
