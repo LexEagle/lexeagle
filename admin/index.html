@@ -49,37 +49,44 @@
   </div>
 
   <script>
-    const auth0Client = new auth0.WebAuth({
-      domain: "YOUR_AUTH0_DOMAIN",
-      clientID: "YOUR_AUTH0_CLIENT_ID",
-      redirectUri: "https://lexeagle.com/callback",
-      responseType: "token id_token",
-      scope: "openid profile email"
-    });
-
-    function checkAuth() {
-      const token = localStorage.getItem("id_token");
-      const user = JSON.parse(localStorage.getItem("user"));
-
-      if (!token || !user) {
-      
-        auth0Client.authorize({
-          connection: "google-oauth2" 
-        });
-      } else {
-        
-        document.getElementById("user-info").innerHTML = `Logged in as <strong>${user.name}</strong>`;
-        document.getElementById("logout-btn").style.display = "block";
-      }
+    async function fetchEnvVariables() {
+      const response = await fetch('/.netlify/functions/env');
+      return response.json();
     }
 
-    document.getElementById("logout-btn").addEventListener("click", function() {
-      localStorage.removeItem("id_token");
-      localStorage.removeItem("user");
-      auth0Client.logout({ returnTo: "https://lexeagle.com" });
-    });
+    async function initAuth() {
+      const env = await fetchEnvVariables();
 
-    checkAuth();
+      const auth0Client = new auth0.WebAuth({
+        domain: env.AUTH0_DOMAIN,
+        clientID: env.AUTH0_CLIENT_ID,
+        redirectUri: env.AUTH0_CALLBACK_URL,
+        responseType: "token id_token",
+        scope: "openid profile email"
+      });
+
+      function checkAuth() {
+        const token = localStorage.getItem("id_token");
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        if (!token || !user) {
+          auth0Client.authorize({ connection: "google-oauth2" });
+        } else {
+          document.getElementById("user-info").innerHTML = `Logged in as <strong>${user.name}</strong>`;
+          document.getElementById("logout-btn").style.display = "block";
+        }
+      }
+
+      document.getElementById("logout-btn").addEventListener("click", function() {
+        localStorage.removeItem("id_token");
+        localStorage.removeItem("user");
+        auth0Client.logout({ returnTo: "https://lexeagle.com" });
+      });
+
+      checkAuth();
+    }
+
+    initAuth();
   </script>
 </body>
 </html>
