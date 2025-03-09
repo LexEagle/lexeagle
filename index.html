@@ -29,6 +29,8 @@
         background: linear-gradient(135deg, #0a0f29, #2e1a47);
         color: #e0e0e0;
         overflow-x: hidden;
+        /* Hide the default cursor */
+        cursor: none;
       }
 
       /* ============ Custom Cursor Styles ============ */
@@ -54,11 +56,13 @@
         height: 40px;
         border: 2px solid #ffcc00;
         border-radius: 50%;
-        transition: transform 0.15s ease-out;
         opacity: 0.7;
+        transition: transform 0.15s ease-out;
+        /* Added subtle glow for enhanced aesthetics */
+        box-shadow: 0 0 8px #ffcc00;
       }
 
-      /* ============ Navigation Styles ============ */
+      /* ============ Navigation ============ */
       nav {
         position: fixed;
         top: 0;
@@ -74,8 +78,8 @@
         margin: 0 15px;
         text-decoration: none;
         font-size: 1rem;
-        position: relative;
         padding: 10px 5px;
+        position: relative;
         transition: color 0.3s ease;
       }
       nav a::after {
@@ -88,20 +92,17 @@
         background: #ffcc00;
         transition: width 0.3s ease;
       }
-      nav a:hover::after {
-        width: 100%;
-      }
-      /* Active nav link underline stays */
+      nav a:hover::after,
       nav a.active::after {
         width: 100%;
       }
 
-      /* ============ Hero Section Styles ============ */
+      /* ============ Hero Section ============ */
       header {
         position: relative;
         width: 100%;
         height: 100vh;
-        margin-top: 80px; /* Added to ensure the hero isn't hidden behind the nav */
+        margin-top: 80px;
         background: linear-gradient(
             135deg,
             rgba(10, 15, 41, 0.85),
@@ -248,7 +249,8 @@
 
       /* ============ About Section ============ */
       #about {
-        background: #1c1c2e;
+        background: rgba(10, 15, 41, 0.9);
+        padding: 80px 20px;
       }
       #about .about-content {
         max-width: 800px;
@@ -261,12 +263,54 @@
         line-height: 1.6;
       }
 
+      /* ============ Articles Section ============ */
+      #articles {
+        background: #1c1c2e;
+        padding: 80px 20px;
+      }
+      .article-card {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 25px;
+        border-radius: 10px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        will-change: transform, box-shadow;
+        backface-visibility: hidden;
+      }
+      .article-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      }
+      .article-card h3 {
+        margin-bottom: 10px;
+        font-size: 1.6rem;
+      }
+      .article-card .snippet {
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+      }
+      .more-content {
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+        display: none;
+      }
+      .read-more-btn {
+        padding: 8px 16px;
+        background: #ffcc00;
+        color: #0a0f29;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+      .read-more-btn:hover {
+        background: #e6b800;
+      }
+
       /* ============ Footer ============ */
       footer {
         background: #0a0f29;
         padding: 40px 20px;
         text-align: center;
-        position: relative;
       }
       footer .footer-contact {
         margin-bottom: 20px;
@@ -303,7 +347,7 @@
         font-size: 0.8rem;
       }
 
-      /* ============ Media Queries for Responsiveness ============ */
+      /* ============ Responsive ============ */
       @media (max-width: 768px) {
         header h1 {
           font-size: 3rem;
@@ -325,7 +369,7 @@
     </style>
   </head>
   <body>
-    <!-- Custom Cursor -->
+    <!-- Custom Cursor Elements -->
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
 
@@ -335,6 +379,7 @@
       <a href="index.html#about">About</a>
       <a href="index.html#services">Services</a>
       <a href="index.html#team">Our Team</a>
+      <a href="index.html#articles">Articles</a>
       <a href="index.html#contact">Contact</a>
       <a href="blog.html">Blog</a>
     </nav>
@@ -412,20 +457,65 @@
       <h2>Our Team</h2>
       <div class="grid">
         <div class="card">
-          <h3>Neeraj Gogia</h3>
+          <h3>Mr. Neeraj Gogia</h3>
           <p>Senior Partner with over 20 years of experience.</p>
         </div>
         <div class="card">
-          <h3>Jane Smith</h3>
-          <p>Legal Advisor renowned for her strategic insights.</p>
+          <h3>Mr. Vinod Kumar</h3>
+          <p>Legal Advisor renowned for his strategic insights.</p>
         </div>
         <div class="card">
-          <h3>Mike Johnson</h3>
+          <h3>Mr. Raghuvar Pratap</h3>
           <p>Corporate Lawyer dedicated to client success.</p>
         </div>
         <div class="card">
-          <h3>Sarah Lee</h3>
+          <h3>Mrs. Sushma</h3>
           <p>Family Law Specialist committed to protecting your rights.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Articles Section -->
+    <section id="articles" class="section">
+      <h2>Latest Articles</h2>
+      <div class="grid">
+        <div class="card article-card">
+          <h3>The Evolution of Criminal Law: A Journey to Justice</h3>
+          <p class="snippet">
+            Criminal law has evolved significantly over the decades, adapting to
+            new societal challenges...
+          </p>
+          <div class="more-content">
+            <p>
+              In this article, we explore the historical roots of criminal law,
+              its evolution in response to changing societal needs, and how
+              modern practices strive to balance punitive measures with
+              rehabilitation. Experts believe that innovative, evidence-based
+              strategies are key to a fair justice system.
+            </p>
+          </div>
+          <button class="read-more-btn" onclick="toggleReadMore(this)">
+            Read More
+          </button>
+        </div>
+        <div class="card article-card">
+          <h3>Understanding Your Rights: The Essentials of Criminal Defense</h3>
+          <p class="snippet">
+            Navigating the complexities of criminal defense requires both
+            knowledge and prompt action...
+          </p>
+          <div class="more-content">
+            <p>
+              This comprehensive guide delves into the core principles of
+              criminal defense, highlighting the importance of timely legal
+              counsel, the rights of the accused, and strategies to effectively
+              challenge charges. Whether facing legal issues or simply seeking
+              to stay informed, understanding your rights is crucial.
+            </p>
+          </div>
+          <button class="read-more-btn" onclick="toggleReadMore(this)">
+            Read More
+          </button>
         </div>
       </div>
     </section>
@@ -433,12 +523,12 @@
     <!-- Footer -->
     <footer id="contact">
       <div class="footer-contact">
-        <a href="tel:+919891800100"
-          ><i class="fas fa-phone"></i> +91 9891800100</a
-        >
-        <a href="mailto:lexeagleindia@gmail.com"
-          ><i class="fas fa-envelope"></i> lexeagleindia@gmail.com</a
-        >
+        <a href="tel:+919891800100">
+          <i class="fas fa-phone"></i> +91 9891800100
+        </a>
+        <a href="mailto:lexeagleindia@gmail.com">
+          <i class="fas fa-envelope"></i> lexeagleindia@gmail.com
+        </a>
       </div>
       <div class="socials">
         <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -449,8 +539,24 @@
       <p>&copy; 2025 Lex Eagle. All rights reserved.</p>
     </footer>
 
-    <!-- Custom Cursor Animation Script -->
+    <!-- JavaScript for "Read More" Functionality and Custom Cursor Logic -->
     <script>
+      // "Read More" toggle for articles
+      function toggleReadMore(button) {
+        const moreContent = button.previousElementSibling;
+        if (
+          moreContent.style.display === "none" ||
+          moreContent.style.display === ""
+        ) {
+          moreContent.style.display = "block";
+          button.textContent = "Read Less";
+        } else {
+          moreContent.style.display = "none";
+          button.textContent = "Read More";
+        }
+      }
+
+      // Custom Cursor Logic (using old method)
       const cursor = document.querySelector(".cursor");
       const follower = document.querySelector(".cursor-follower");
       let mouseX = 0,
