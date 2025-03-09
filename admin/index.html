@@ -1,82 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>Admin Panel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 50px;
-      background-color: #f4f4f4;
-    }
-    .login-container {
-      background: white;
-      max-width: 400px;
-      margin: 0 auto;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .login-btn, .logout-btn {
-      background: #0073e6;
-      color: white;
-      padding: 12px 20px;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-    .login-btn:hover, .logout-btn:hover {
-      background: #005bb5;
-    }
-  </style>
+  <title>Admin Panel</title>
 </head>
-<body>
 
-  <div class="login-container">
-    <h1>Welcome to Admin Panel</h1>
-    <p id="user-info">Please sign in to continue</p>
-    <button id="login-btn" class="login-btn">Sign in</button>
-    <button id="logout-btn" class="logout-btn" style="display: none;">Log out</button>
-  </div>
+<body>
+  <h1>Welcome to the Admin Panel</h1>
+
+ 
+  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
   <script>
-    const identity = netlifyIdentity;
+    const identity = window.netlifyIdentity;
 
-    identity.on('init', user => {
-      if (user) {
-        showUser(user);
-      }
-    });
 
     identity.on('login', user => {
-      showUser(user);
-      identity.close();
+      console.log("User logged in:", user);
+      window.location.href = '/admin';  
     });
 
-    identity.on('logout', () => {
-      document.getElementById('user-info').innerText = "Please sign in to continue";
-      document.getElementById('login-btn').style.display = "block";
-      document.getElementById('logout-btn').style.display = "none";
-    });
-
-    document.getElementById('login-btn').addEventListener('click', () => {
+  
+    if (identity.currentUser()) {
+      window.location.href = '/admin'; 
+    } else {
       identity.open();
-    });
-
-    document.getElementById('logout-btn').addEventListener('click', () => {
-      identity.logout();
-    });
-
-    function showUser(user) {
-      document.getElementById('user-info').innerHTML = `Logged in as <strong>${user.email}</strong>`;
-      document.getElementById('login-btn').style.display = "none";
-      document.getElementById('logout-btn').style.display = "block";
     }
   </script>
-
 </body>
+
 </html>
