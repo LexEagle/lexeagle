@@ -3,7 +3,6 @@ backend:
   repo: lexeagle/lexeagle
   branch: main
   auth_scope: repo
-  open_authoring: true
   publish_mode: editorial_workflow
 
 media_folder: "images/uploads"
