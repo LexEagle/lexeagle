@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Admin Panel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://identity.netlify.com/v1/netlify-identity.js"></script>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -20,7 +20,7 @@
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-    .login-btn, .logout-btn, .google-btn {
+    .login-btn, .logout-btn {
       background: #0073e6;
       color: white;
       padding: 12px 20px;
@@ -28,95 +28,54 @@
       cursor: pointer;
       border-radius: 5px;
       font-size: 16px;
-      display: block;
-      width: 100%;
-      margin: 10px 0;
     }
-    .login-btn:hover, .logout-btn:hover, .google-btn:hover {
+    .login-btn:hover, .logout-btn:hover {
       background: #005bb5;
-    }
-    input {
-      display: block;
-      margin: 10px auto;
-      padding: 10px;
-      width: 80%;
-      font-size: 16px;
     }
   </style>
 </head>
 <body>
 
   <div class="login-container">
-    <h1>Admin Panel</h1>
+    <h1>Welcome to Admin Panel</h1>
     <p id="user-info">Please sign in to continue</p>
-    
-    <div id="login-form">
-      <!-- Email/Password form -->
-      <input type="email" id="email" placeholder="Email">
-      <input type="password" id="password" placeholder="Password">
-      <button id="login-btn" class="login-btn">Sign in</button>
-      <p>Don't have an account? <a href="#" id="signup-link">Sign up</a></p>
-
-      <!-- Google Login button -->
-      <button id="google-login-btn" class="google-btn">Sign in with Google</button>
-    </div>
-
+    <button id="login-btn" class="login-btn">Sign in</button>
     <button id="logout-btn" class="logout-btn" style="display: none;">Log out</button>
   </div>
 
   <script>
-    const netlifyIdentity = window.netlifyIdentity;
+    const identity = netlifyIdentity;
 
-    function updateUI(user) {
+    identity.on('init', user => {
       if (user) {
-        document.getElementById("user-info").innerHTML = `Logged in as <strong>${user.email}</strong>`;
-        document.getElementById("login-form").style.display = "none";
-        document.getElementById("logout-btn").style.display = "block";
-      } else {
-        document.getElementById("user-info").innerText = "Please sign in to continue";
-        document.getElementById("login-form").style.display = "block";
-        document.getElementById("logout-btn").style.display = "none";
+        showUser(user);
       }
+    });
+
+    identity.on('login', user => {
+      showUser(user);
+      identity.close();
+    });
+
+    identity.on('logout', () => {
+      document.getElementById('user-info').innerText = "Please sign in to continue";
+      document.getElementById('login-btn').style.display = "block";
+      document.getElementById('logout-btn').style.display = "none";
+    });
+
+    document.getElementById('login-btn').addEventListener('click', () => {
+      identity.open();
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      identity.logout();
+    });
+
+    function showUser(user) {
+      document.getElementById('user-info').innerHTML = `Logged in as <strong>${user.email}</strong>`;
+      document.getElementById('login-btn').style.display = "none";
+      document.getElementById('logout-btn').style.display = "block";
     }
-
-    netlifyIdentity.on("init", user => updateUI(user));
-    netlifyIdentity.on("login", user => updateUI(user));
-    netlifyIdentity.on("logout", () => updateUI(null));
-
-    // Handle Email Login
-    document.getElementById("login-btn").addEventListener("click", async () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      try {
-        const user = await netlifyIdentity.gotrue.login(email, password);
-        updateUI(user);
-      } catch (error) {
-        alert("Login failed: " + error.message);
-      }
-    });
-
-    // Handle Google Login
-    document.getElementById("google-login-btn").addEventListener("click", () => {
-      netlifyIdentity.open('google');
-    });
-
-    // Handle Sign Up
-    document.getElementById("signup-link").addEventListener("click", async () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      try {
-        const user = await netlifyIdentity.gotrue.signup(email, password);
-        alert("Signup successful! Please check your email to confirm.");
-      } catch (error) {
-        alert("Signup failed: " + error.message);
-      }
-    });
-
-    document.getElementById("logout-btn").addEventListener("click", () => {
-      netlifyIdentity.logout();
-    });
-
-    netlifyIdentity.init();
   </script>
 
 </body>
