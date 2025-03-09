@@ -1,17 +1,16 @@
 backend:
-  name: git-gateway  
-  open_authoring: true
-  publish_mode: editorial_workflow
-  repo: lexeagle/lexeagle
-  branch: main
-  auth_scope: repo
+  name: git-gateway
+  publish_mode: editorial_workflow 
+  repo: your-username/your-repo  
+  branch: main  
+  auth_scope: repo 
 
 media_folder: "images/uploads"
 collections:
-  - name: "articles"
+  - name: "articles" 
     label: "Articles"
-    folder: "content/articles"
-    create: true
+    folder: "content/articles" 
+    create: true 
     fields:
       - { name: "title", label: "Title", widget: "string" }
       - { name: "date", label: "Date", widget: "datetime" }
