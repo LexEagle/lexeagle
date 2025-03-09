@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Custom Auth UI</title>
+  <title>Admin Panel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.auth0.com/js/auth0/9.19/auth0.min.js"></script>
   <style>
-    /* Custom styling to match your theme */
     body {
       background-color: #f4f4f4;
       font-family: 'Arial', sans-serif;
@@ -25,7 +25,7 @@
       margin-bottom: 20px;
     }
     .login-btn {
-      background-color: #db4437; /* Google Red */
+      background-color: #db4437;
       color: #fff;
       border: none;
       padding: 12px 20px;
@@ -36,35 +36,48 @@
     .login-btn:hover {
       background-color: #c33d2d;
     }
+    #user-info {
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
   <div class="login-container">
-    <h1>Welcome to Our Admin Panel</h1>
-    <p>Please log in using your Google account to continue.</p>
-    <button id="google-login" class="login-btn">Sign in with Google</button>
+    <h1>Welcome to the Admin Panel</h1>
+    <p id="user-info">Checking authentication...</p>
+    <button id="logout-btn" class="login-btn" style="display:none;">Log Out</button>
   </div>
-  
-  <script>
-    async function loginWithGoogle() {
-      try {
-        const response = await fetch("https://lexeagle.com/.netlify/identity/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ provider: "google" })
-        });
-        
-        if (!response.ok) throw new Error("Failed to start login process");
 
-        const data = await response.json();
-        window.location.href = data.url; // Redirect to Google's login page
-      } catch (error) {
-        console.error("Login failed:", error);
-        alert("Authentication failed. Please try again.");
+  <script>
+    const auth0Client = new auth0.WebAuth({
+      domain: "YOUR_AUTH0_DOMAIN",
+      clientID: "YOUR_AUTH0_CLIENT_ID",
+      redirectUri: "https://lexeagle.com/callback",
+      responseType: "token id_token",
+      scope: "openid profile email"
+    });
+
+    function checkAuth() {
+      const token = localStorage.getItem("id_token");
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      if (!token || !user) {
+        // If not logged in, redirect to login page
+        window.location.href = "/login.html";
+      } else {
+        // If logged in, show user info
+        document.getElementById("user-info").innerHTML = `Logged in as <strong>${user.name}</strong>`;
+        document.getElementById("logout-btn").style.display = "block";
       }
     }
 
-    document.getElementById("google-login").addEventListener("click", loginWithGoogle);
+    document.getElementById("logout-btn").addEventListener("click", function() {
+      localStorage.removeItem("id_token");
+      localStorage.removeItem("user");
+      window.location.href = "/login.html";
+    });
+
+    checkAuth();
   </script>
 </body>
 </html>
