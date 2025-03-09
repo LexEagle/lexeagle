@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: lexeagle/lexeagle
+  repo: LexEagle/lexeagle
   branch: main
   auth_scope: repo
   open_authoring: true
