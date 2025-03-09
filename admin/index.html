@@ -33,12 +33,27 @@
       font-size: 18px;
       margin-top: 20px;
     }
+
+    .google-login-button {
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .google-login-button:hover {
+      background-color: #357ae8;
+    }
   </style>
 </head>
 
 <body>
 
-  <div class="admin-container" id="admin-container">
+  <div class="admin-container" id="admin-container" style="display:none;">
     <h1>Welcome to the Admin Panel</h1>
     <div id="cms-container"></div>
     <div id="error-message" class="error-message" style="display: none;">
@@ -46,27 +61,39 @@
     </div>
   </div>
 
+  <div id="login-container">
+    <button class="google-login-button" onclick="loginWithGoogle()">Sign in with Google</button>
+  </div>
 
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
   <script>
-
     const token = localStorage.getItem('auth_token') || new URLSearchParams(window.location.search).get('token');
-    
-
     const expectedToken = process.env.ADMIN_ACCESS_TOKEN;
 
     if (!token || token !== expectedToken) {
-
-      document.getElementById('error-message').style.display = 'block';
+      document.getElementById('login-container').style.display = 'block';
       document.getElementById('admin-container').style.display = 'none';
       return;
     }
 
-
+    document.getElementById('login-container').style.display = 'none';
+    document.getElementById('admin-container').style.display = 'block';
     document.getElementById('cms-container').innerHTML = '<div id="cms"></div>';
-
-
     NetlifyCMS.init();
+
+    function loginWithGoogle() {
+      const clientId = "YOUR_GOOGLE_CLIENT_ID";
+      const googleAuth = gapi.auth2.getAuthInstance();
+      
+      googleAuth.signIn().then(function(googleUser) {
+        const idToken = googleUser.getAuthResponse().id_token;
+        localStorage.setItem('auth_token', idToken);
+        window.location.href = "/admin?token=" + idToken;
+      });
+    }
   </script>
 
 </body>
