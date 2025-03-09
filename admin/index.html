@@ -2,28 +2,69 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>Custom Auth UI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin Panel</title>
+  <style>
+    /* Custom styling to match your theme */
+    body {
+      background-color: #f4f4f4;
+      font-family: 'Arial', sans-serif;
+      color: #333;
+      text-align: center;
+      padding: 50px;
+    }
+    .login-container {
+      background-color: #fff;
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .login-container h1 {
+      margin-bottom: 20px;
+    }
+    .login-btn {
+      background-color: #db4437; /* Google red */
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .login-btn:hover {
+      background-color: #c33d2d;
+    }
+  </style>
 </head>
 <body>
-  <!-- Load the Netlify Identity widget -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <div class="login-container">
+    <h1>Welcome to Our Admin Panel</h1>
+    <p>Please log in using your Google account to continue.</p>
+    <button id="google-login" class="login-btn">Sign in with Google</button>
+  </div>
   
+  <!-- Load the Netlify Identity widget library (used only for API calls) -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>
-    // Initialize the Identity widget
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", user => {
-        if (!user) {
-          // User is not logged in, so show the login widget
-          window.netlifyIdentity.on("login", () => {
-            document.location.href = "/admin/";
-          });
-        }
-      });
-    }
-  </script>
+    // Initialize Netlify Identity without displaying its default UI
+    netlifyIdentity.init();
 
-  <!-- Load Netlify CMS -->
-  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+    // When the button is clicked, trigger Google authentication
+    document.getElementById('google-login').addEventListener('click', function() {
+      // Authenticate using the Google provider
+      netlifyIdentity.authenticate('google')
+        .then(user => {
+          console.log('User logged in:', user);
+          // Redirect to your admin panel after successful login
+          window.location.href = "/admin/";
+        })
+        .catch(err => {
+          console.error('Authentication error:', err);
+          alert('Authentication failed. Please try again.');
+        });
+    });
+  </script>
 </body>
 </html>
