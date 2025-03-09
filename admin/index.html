@@ -10,24 +10,35 @@
 <body>
   <h1>Welcome to the Admin Panel</h1>
 
- 
+
   <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+
 
   <script>
     const identity = window.netlifyIdentity;
 
+    identity.on('init', () => {
+      const user = identity.currentUser();
+
+      if (!user) {
+
+        window.location.href = '/login'; 
+      }
+    });
+
 
     identity.on('login', user => {
       console.log("User logged in:", user);
-      window.location.href = '/admin';  
+      window.location.href = '/admin';
     });
 
-  
+
     if (identity.currentUser()) {
       window.location.href = '/admin'; 
     } else {
-      identity.open();
+      identity.open(); 
     }
+
   </script>
 </body>
 
