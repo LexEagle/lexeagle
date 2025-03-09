@@ -15,3 +15,7 @@ collections:
       - { name: "title", label: "Title", widget: "string" }
       - { name: "date", label: "Date", widget: "datetime" }
       - { name: "body", label: "Body", widget: "markdown" }
+identity:
+  url: "${AUTH0_DOMAIN}" 
+  client_id: "${AUTH0_CLIENT_ID}"
+  scope: "openid profile email"
