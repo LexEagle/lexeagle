@@ -1,140 +1,412 @@
+---
+layout: default
+title: Lex Eagle – Legal News
+---
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lex Eagle – All About Law</title>
-  <meta name="description" content="Lex Eagle provides the latest legal news, case updates, and insights from courts across the country." />
-  <!-- Link to External CSS -->
-  <link rel="stylesheet" href="css/styles.css" />
-</head>
-<body>
-  <!-- HEADER -->
-  <header class="top-header">
-    <div class="logo" aria-label="Lex Eagle logo">
-      <img src="images/logo.png" alt="Lex Eagle" class="logo-img" />
-      <span class="logo-text">Lex Eagle</span>
-    </div>
-    <div class="search-bar" role="search">
-      <label for="globalSearch" class="visually-hidden">Search Articles</label>
-      <input id="globalSearch" type="text" placeholder="Search legal insights..." aria-label="Search legal articles" />
-      <button type="button" id="searchBtn">Search</button>
-    </div>
-    <div class="cta-buttons">
-      <button type="button" onclick="handleSignIn()">Sign In</button>
-      <button type="button" onclick="handleRegister()">Register</button>
-    </div>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ page.title }}</title>
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+        font-family: "Open Sans", sans-serif;
+      }
+      .navbar {
+        background-color: #002147; /* Dark navy */
+      }
+      .navbar-brand,
+      .navbar-nav .nav-link,
+      .navbar-text {
+        color: #fff !important;
+      }
+      .navbar-brand:hover,
+      .navbar-nav .nav-link:hover {
+        color: #d9d9d9 !important;
+      }
+      .offcanvas {
+        width: 280px; /* Adjust the sidebar width */
+      }
+      /* Featured Article Styling */
+      .featured-article {
+        background: #fff;
+        border-radius: 6px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+      }
+      .featured-article img {
+        max-width: 100%;
+        border-radius: 6px;
+      }
+      /* Article Cards */
+      .article-list .card {
+        margin-bottom: 1rem;
+        border: none;
+        border-radius: 6px;
+      }
+      .card img {
+        border-radius: 6px 0 0 6px; /* round left corners for images in cards */
+      }
+      /* Footer */
+      footer {
+        background-color: #002147;
+        color: #fff;
+        padding: 2rem 0;
+        margin-top: 3rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR (Minimal) -->
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <!-- Brand & Toggle -->
+        <a class="navbar-brand fw-bold" href="#">
+          <img
+            src="https://via.placeholder.com/40x40/002147/FFFFFF?text=LE"
+            alt="Lex Eagle Logo"
+            class="me-2 rounded-circle"
+          />
+          Lex Eagle
+        </a>
+        <button
+          class="navbar-toggler text-white"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-  <!-- MAIN NAVIGATION -->
-  <nav class="main-nav" aria-label="Primary Navigation">
-    <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">Top Stories</a></li>
-      <li><a href="#">Supreme Court</a></li>
-      <li><a href="#">High Court</a></li>
-      <li><a href="#">Articles</a></li>
-      <li><a href="#">Law Schools</a></li>
-      <li><a href="#">Law Firms</a></li>
-      <li><a href="#">Videos</a></li>
-      <li><a href="#">Know The Law</a></li>
-      <li><a href="#">Digests</a></li>
-      <li><a href="#">More</a></li>
-    </ul>
-  </nav>
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <!-- Left side of nav -->
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Home</a>
+            </li>
+            <!-- Minimal top-level items; others in dropdown -->
+            <li class="nav-item">
+              <a class="nav-link" href="#">Top Stories</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="sectionsDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Sections
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="sectionsDropdown">
+                <li><a class="dropdown-item" href="#">Supreme Court</a></li>
+                <li><a class="dropdown-item" href="#">High Court</a></li>
+                <li><a class="dropdown-item" href="#">Articles</a></li>
+                <li><a class="dropdown-item" href="#">Law Schools</a></li>
+                <li><a class="dropdown-item" href="#">Law Firms</a></li>
+                <li><a class="dropdown-item" href="#">Videos</a></li>
+                <li><a class="dropdown-item" href="#">Know The Law</a></li>
+                <li><a class="dropdown-item" href="#">Digests</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item" href="#">Contact Us</a></li>
+                <li><a class="dropdown-item" href="#">About</a></li>
+              </ul>
+            </li>
+          </ul>
 
-  <!-- OPTIONAL FILTERS SECTION -->
-  <section class="filters" aria-label="Filter Articles">
-    <label for="courtSelect" class="visually-hidden">Select Court</label>
-    <select id="courtSelect">
-      <option value="all">All Courts</option>
-      <option value="sc">Supreme Court</option>
-      <option value="hc">High Court</option>
-    </select>
-
-    <label for="practiceSelect" class="visually-hidden">Select Practice Area</label>
-    <select id="practiceSelect">
-      <option value="all">All Practice Areas</option>
-      <option value="corporate">Corporate Law</option>
-      <option value="criminal">Criminal Law</option>
-      <option value="family">Family Law</option>
-    </select>
-
-    <label for="startDate" class="visually-hidden">Start Date</label>
-    <input type="date" id="startDate" aria-label="Filter start date" />
-
-    <label for="endDate" class="visually-hidden">End Date</label>
-    <input type="date" id="endDate" aria-label="Filter end date" />
-
-    <label for="authorName" class="visually-hidden">Author Name</label>
-    <input type="text" id="authorName" placeholder="Author Name" aria-label="Filter by author" />
-
-    <button type="button" onclick="applyFilters()">Apply</button>
-  </section>
-
-  <!-- MAIN CONTENT -->
-  <main>
-    <!-- FEATURED ARTICLE -->
-    <section class="featured-section" aria-labelledby="featuredTitle">
-      <figure class="featured-image">
-        <img src="images/featured-article.jpg" alt="Justice Gavai addressing an audience" />
-      </figure>
-      <div class="featured-content">
-        <h2 id="featuredTitle">Justice Gavai Flags Misuse Of Live-Streamed Hearings</h2>
-        <p>Short clips often mislead & sensationalize—clear guidelines are necessary regarding the use of livestream footage.</p>
-        <a href="#" aria-label="Read more about Justice Gavai Flags Misuse Of Live-Streamed Hearings">Read more</a>
+          <!-- Right side of nav -->
+          <form class="d-flex me-2" role="search">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search..."
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-light" type="submit">Search</button>
+          </form>
+          <button class="btn btn-light ms-2" onclick="handleSignIn()">
+            Sign In
+          </button>
+          <button class="btn btn-outline-light ms-2" onclick="handleRegister()">
+            Register
+          </button>
+          <!-- Filter Toggle (Mobile) -->
+          <button
+            class="btn btn-outline-light ms-3 d-lg-none"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#filterOffcanvas"
+            aria-controls="filterOffcanvas"
+          >
+            Filters
+          </button>
+        </div>
       </div>
-    </section>
+    </nav>
 
-    <!-- ARTICLE LIST -->
-    <section class="article-list" aria-labelledby="latestArticles">
-      <h2 id="latestArticles" class="visually-hidden">Latest Articles</h2>
-      <!-- Article 1 -->
-      <article class="article" 
-               data-court="sc" 
-               data-practice="corporate" 
-               data-date="2025-03-01" 
-               data-author="John Doe" 
-               aria-labelledby="article1Title">
-        <img src="images/article1.jpg" alt="Supreme Court building" />
-        <div class="article-info">
-          <h3 id="article1Title">Supreme Court Issues Contempt Notice</h3>
-          <p>Over false statement on placing SRB recommendations before...</p>
-          <a href="#" aria-label="Read more about Supreme Court Issues Contempt Notice">Read more</a>
+    <!-- OFFCANVAS SIDEBAR (Filters) -->
+    <div
+      class="offcanvas offcanvas-start"
+      tabindex="-1"
+      id="filterOffcanvas"
+      aria-labelledby="filterOffcanvasLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="filterOffcanvasLabel">Filters</h5>
+        <button
+          type="button"
+          class="btn-close text-reset"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <div class="mb-3">
+          <label for="courtSelect" class="form-label">Court</label>
+          <select id="courtSelect" class="form-select">
+            <option value="all">All Courts</option>
+            <option value="sc">Supreme Court</option>
+            <option value="hc">High Court</option>
+          </select>
         </div>
-      </article>
-      <!-- Article 2 -->
-      <article class="article" 
-               data-court="hc" 
-               data-practice="criminal" 
-               data-date="2025-03-02" 
-               data-author="Jane Smith" 
-               aria-labelledby="article2Title">
-        <img src="images/article2.jpg" alt="Karnataka High Court building" />
-        <div class="article-info">
-          <h3 id="article2Title">Karnataka High Court Stays District Consumer Commission's Order</h3>
-          <p>Movie ads row: The court says it can't direct how theaters...</p>
-          <a href="#" aria-label="Read more about Karnataka High Court Stays District Consumer Commission's Order">Read more</a>
+        <div class="mb-3">
+          <label for="practiceSelect" class="form-label">Practice Area</label>
+          <select id="practiceSelect" class="form-select">
+            <option value="all">All Practice Areas</option>
+            <option value="corporate">Corporate Law</option>
+            <option value="criminal">Criminal Law</option>
+            <option value="family">Family Law</option>
+          </select>
         </div>
-      </article>
-      <!-- Additional articles... -->
-    </section>
-  </main>
+        <div class="mb-3">
+          <label for="startDate" class="form-label">From</label>
+          <input type="date" id="startDate" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label for="endDate" class="form-label">To</label>
+          <input type="date" id="endDate" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label for="authorName" class="form-label">Author</label>
+          <input
+            type="text"
+            id="authorName"
+            class="form-control"
+            placeholder="Author Name"
+          />
+        </div>
+        <button class="btn btn-primary w-100" onclick="applyFilters()">
+          Apply
+        </button>
+      </div>
+    </div>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>&copy; 2025 Lex Eagle. All Rights Reserved.</p>
-    <address>
-      <a href="mailto:info@lexeagle.com">info@lexeagle.com</a> | (123) 456-7890
-    </address>
-    <p>
-      <a href="#" aria-label="Lex Eagle on Facebook">Facebook</a> |
-      <a href="#" aria-label="Lex Eagle on Twitter">Twitter</a> |
-      <a href="#" aria-label="Lex Eagle on LinkedIn">LinkedIn</a>
-    </p>
-  </footer>
+    <!-- MAIN CONTENT -->
+    <div class="container my-4">
+      <div class="row">
+        <!-- Desktop Sidebar (Filters) -->
+        <aside class="col-lg-3 d-none d-lg-block">
+          <div class="bg-white p-3 rounded shadow-sm mb-4">
+            <h5 class="mb-3">Filters</h5>
+            <div class="mb-3">
+              <label for="courtSelectDesktop" class="form-label">Court</label>
+              <select id="courtSelectDesktop" class="form-select">
+                <option value="all">All Courts</option>
+                <option value="sc">Supreme Court</option>
+                <option value="hc">High Court</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="practiceSelectDesktop" class="form-label"
+                >Practice Area</label
+              >
+              <select id="practiceSelectDesktop" class="form-select">
+                <option value="all">All Practice Areas</option>
+                <option value="corporate">Corporate Law</option>
+                <option value="criminal">Criminal Law</option>
+                <option value="family">Family Law</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="startDateDesktop" class="form-label">From</label>
+              <input type="date" id="startDateDesktop" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label for="endDateDesktop" class="form-label">To</label>
+              <input type="date" id="endDateDesktop" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label for="authorNameDesktop" class="form-label">Author</label>
+              <input
+                type="text"
+                id="authorNameDesktop"
+                class="form-control"
+                placeholder="Author Name"
+              />
+            </div>
+            <button
+              class="btn btn-primary w-100"
+              onclick="applyFiltersDesktop()"
+            >
+              Apply
+            </button>
+          </div>
+        </aside>
 
-  <!-- MAIN JS -->
-  <script src="js/main.js"></script>
-</body>
+        <!-- Main Articles Section -->
+        <main class="col-lg-9">
+          <!-- Featured Article (Static or you can make it dynamic later) -->
+          <div class="featured-article shadow-sm">
+            <div class="row">
+              <div class="col-md-4">
+                <img
+                  src="https://via.placeholder.com/600x400?text=Featured+Article"
+                  alt="Justice Gavai addressing an audience"
+                  class="img-fluid"
+                />
+              </div>
+              <div class="col-md-8 mt-3 mt-md-0">
+                <h2 class="fw-bold">
+                  Justice Gavai Flags Misuse Of Live-Streamed Hearings
+                </h2>
+                <p class="text-muted">
+                  Short clips often mislead &amp; sensationalize—clear guidelines
+                  are necessary regarding the use of livestream footage.
+                </p>
+                <a href="#" class="text-decoration-none fw-semibold">Read more</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Articles List (Dynamic via Netlify CMS) -->
+          <div class="article-list">
+            {% for article in site.articles %}
+            <div
+              class="card p-2 shadow-sm"
+              data-court="{{ article.court | default: 'all' }}"
+              data-practice="{{ article.practice | default: 'all' }}"
+              data-date="{{ article.date | date: '%Y-%m-%d' }}"
+              data-author="{{ article.author | default: 'Unknown' }}"
+            >
+              <div class="row g-0">
+                <div class="col-4 col-sm-3">
+                  {% if article.image %}
+                    <img src="{{ article.image }}" class="img-fluid h-100" alt="{{ article.title }}" />
+                  {% else %}
+                    <img src="https://via.placeholder.com/300x200?text=Article+Image" class="img-fluid h-100" alt="Article Image" />
+                  {% endif %}
+                </div>
+                <div class="col-8 col-sm-9">
+                  <div class="card-body">
+                    <h5 class="card-title mb-1">{{ article.title }}</h5>
+                    <p class="card-text text-muted mb-2">
+                      {{ article.excerpt }}
+                    </p>
+                    <a href="{{ article.url }}" class="btn btn-sm btn-primary">Read more</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container text-center">
+        <p class="mb-0">&copy; 2025 Lex Eagle. All Rights Reserved.</p>
+        <p class="mb-0">
+          <a href="mailto:info@lexeagle.com" class="text-white me-3">info@lexeagle.com</a>
+          | (123) 456-7890
+        </p>
+        <p class="mb-0">
+          <a href="#" class="text-white me-2">Facebook</a> |
+          <a href="#" class="text-white ms-2 me-2">Twitter</a> |
+          <a href="#" class="text-white ms-2">LinkedIn</a>
+        </p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS (with Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Offcanvas filter apply
+      function applyFilters() {
+        const courtVal = document.getElementById("courtSelect").value;
+        const practiceVal = document.getElementById("practiceSelect").value;
+        const startDate = document.getElementById("startDate").value;
+        const endDate = document.getElementById("endDate").value;
+        const authorVal = document
+          .getElementById("authorName")
+          .value.toLowerCase();
+
+        filterArticles(courtVal, practiceVal, startDate, endDate, authorVal);
+      }
+
+      // Desktop sidebar filter apply
+      function applyFiltersDesktop() {
+        const courtVal = document.getElementById("courtSelectDesktop").value;
+        const practiceVal = document.getElementById("practiceSelectDesktop").value;
+        const startDate = document.getElementById("startDateDesktop").value;
+        const endDate = document.getElementById("endDateDesktop").value;
+        const authorVal = document
+          .getElementById("authorNameDesktop")
+          .value.toLowerCase();
+
+        filterArticles(courtVal, practiceVal, startDate, endDate, authorVal);
+      }
+
+      // Generic filter function
+      function filterArticles(courtVal, practiceVal, startDate, endDate, authorVal) {
+        const articles = document.querySelectorAll(".article-list .card");
+
+        articles.forEach((article) => {
+          let show = true;
+          const articleCourt = article.getAttribute("data-court");
+          const articlePractice = article.getAttribute("data-practice");
+          const articleDate = article.getAttribute("data-date");
+          const articleAuthor = article.getAttribute("data-author").toLowerCase();
+
+          if (courtVal !== "all" && articleCourt !== courtVal) {
+            show = false;
+          }
+          if (practiceVal !== "all" && articlePractice !== practiceVal) {
+            show = false;
+          }
+          if (startDate && articleDate < startDate) {
+            show = false;
+          }
+          if (endDate && articleDate > endDate) {
+            show = false;
+          }
+          if (authorVal && !articleAuthor.includes(authorVal)) {
+            show = false;
+          }
+
+          article.style.display = show ? "block" : "none";
+        });
+      }
+
+      function handleSignIn() {
+        alert("Sign In functionality coming soon.");
+      }
+      function handleRegister() {
+        alert("Register functionality coming soon.");
+      }
+    </script>
+  </body>
 </html>
