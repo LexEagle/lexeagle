@@ -1,90 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
+  <title>Custom Auth UI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin Panel</title>
   <style>
+
     body {
+      background-color: #f4f4f4;
       font-family: 'Arial', sans-serif;
-      background-color: #1d3557; /* Deep Navy */
-      color: white;
-      margin: 0;
-      padding: 0;
-    }
-
-    .admin-container {
+      color: #333;
       text-align: center;
-      padding: 40px;
-      background-color: #ffffff;
-      margin: 20px auto;
+      padding: 50px;
+    }
+    .login-container {
+      background-color: #fff;
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 30px;
       border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      width: 80%;
-      max-width: 800px;
-      color: #1d3557; /* Deep Navy */
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 30px;
     }
-
-    .admin-container h1 {
-      font-size: 28px;
-      color: #1d3557; /* Deep Navy */
+    .login-container h1 {
+      margin-bottom: 20px;
     }
-
-    .google-login-button {
-      background-color: #f4a261; /* Gold Accent */
-      color: white;
+    .login-btn {
+      background-color: #db4437; 
+      color: #fff;
       border: none;
-      padding: 12px 24px;
+      padding: 12px 20px;
       font-size: 16px;
       border-radius: 4px;
       cursor: pointer;
-      margin-top: 20px;
     }
-
-    .google-login-button:hover {
-      background-color: #e76f51; /* Darker Gold Accent */
-    }
-
-    .error-message {
-      color: #e76f51; /* Error Color */
-      font-size: 18px;
-      margin-top: 20px;
-    }
-
-    #login-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+    .login-btn:hover {
+      background-color: #c33d2d;
     }
   </style>
 </head>
-
 <body>
-
-  <div class="admin-container" id="admin-container" style="display:none;">
-    <h1>Welcome to the Admin Panel</h1>
-    <div id="cms-container"></div>
+  <div class="login-container">
+    <h1>Welcome to Our Admin Panel</h1>
+    <p>Please log in using your Google account to continue.</p>
+    <button id="google-login" class="login-btn">Sign in with Google</button>
   </div>
-
-  <div id="login-container">
-    <button class="google-login-button" onclick="loginWithNetlify()">Sign in with Google</button>
-  </div>
+  
 
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
-
   <script>
-    function loginWithNetlify() {
-      netlifyIdentity.open();
+
+    if (window.netlifyIdentity) {
+      netlifyIdentity.init();
     }
 
-    netlifyIdentity.on('login', function(user) {
-      window.location.href = "/admin";
+    document.getElementById('google-login').addEventListener('click', function() {
+      if (window.netlifyIdentity) {
+        netlifyIdentity.open(); 
+      } else {
+        alert("Netlify Identity is not loaded. Please check your configuration.");
+      }
     });
+
+
+    if (window.netlifyIdentity) {
+      netlifyIdentity.on("login", (user) => {
+        console.log("User logged in:", user);
+        window.location.href = "/admin/";  
+      });
+    }
   </script>
-
 </body>
-
 </html>
