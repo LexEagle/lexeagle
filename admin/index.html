@@ -54,7 +54,7 @@
         if (identity) {
             identity.on('init', user => {
                 if (user) {
-                    document.location.href = '/admin/';
+                    netlifyCMS.init();
                 } else {
                     document.getElementById('login-btn').style.display = 'block';
                 }
@@ -65,13 +65,7 @@
             });
 
             identity.on('login', user => {
-                document.location.href = '/admin/';
-            });
-
-            identity.on('init', user => {
-                if (user) {
-                    netlifyCMS.init();
-                }
+                netlifyCMS.init();
             });
         } else {
             console.error("Netlify Identity is not available.");
