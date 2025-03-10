@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Admin Panel</title>
-  <script>window.CMS_MANUAL_INIT = true;</script>
+  <script>
+    window.CMS_MANUAL_INIT = true;
+  </script>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <style>
     body {
@@ -49,14 +51,14 @@
     if (identity) {
       identity.on('init', user => {
         if (user) {
-          netlifyCMS.init();
+          CMS.init();
         }
       });
       document.getElementById('login-btn').addEventListener('click', () => {
         identity.open();
       });
       identity.on('login', user => {
-        netlifyCMS.init();
+        CMS.init();
       });
     }
   </script>
