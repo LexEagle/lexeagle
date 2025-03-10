@@ -67,6 +67,13 @@
             identity.on('login', user => {
                 netlifyCMS.init();
             });
+
+            identity.on('logout', () => {
+                document.getElementById('login-btn').style.display = 'block';
+            });
+
+     
+            window.CMS_MANUAL_INIT = true; 
         } else {
             console.error("Netlify Identity is not available.");
         }
