@@ -51,10 +51,14 @@
     <script>
         const identity = window.netlifyIdentity;
 
+
+        window.CMS_MANUAL_INIT = true;
+
         if (identity) {
             identity.on('init', user => {
                 if (user) {
-                    netlifyCMS.init();
+                    document.getElementById('login-btn').style.display = 'none';
+                    netlifyCMS.init(); 
                 } else {
                     document.getElementById('login-btn').style.display = 'block';
                 }
@@ -65,15 +69,13 @@
             });
 
             identity.on('login', user => {
-                netlifyCMS.init();
+                document.getElementById('login-btn').style.display = 'none';
+                netlifyCMS.init(); 
             });
 
             identity.on('logout', () => {
                 document.getElementById('login-btn').style.display = 'block';
             });
-
-     
-            window.CMS_MANUAL_INIT = true; 
         } else {
             console.error("Netlify Identity is not available.");
         }
