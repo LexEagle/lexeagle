@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lex Eagle Admin Panel</title>
+    <title>Custom Admin Panel</title>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/netlify-cms@2.16.0/dist/netlify-cms.js"></script>
     <style>
@@ -157,14 +157,10 @@
         function initializeNetlifyCMS() {
             if (identity.currentUser()) {
                 netlifyCMS.init();
-                document.getElementById('content-editor').style.display = "block";
+                document.querySelector('.editor-container').style.display = "none"; // Hide the button and content editor UI
+                document.getElementById('content-editor').style.display = "none"; // Hide any custom editor content
             }
         }
-
-        document.getElementById('save-post').addEventListener('click', () => {
-            const updatedContent = document.getElementById('post-content').value;
-            alert('Content saved: ' + updatedContent);
-        });
     </script>
 
 </body>
