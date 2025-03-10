@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Custom Admin Panel</title>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/netlify-cms@2.16.0/dist/netlify-cms.js"></script>
+    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -105,12 +105,6 @@
             <h2>Content Editor</h2>
             <button id="open-cms" class="editor-btn">Open Content Editor</button>
         </div>
-
-        <div id="content-editor" style="display: none;">
-            <h2>Editing Post</h2>
-            <textarea id="post-content" placeholder="Start editing your content..."></textarea>
-            <button id="save-post" class="editor-btn">Save Post</button>
-        </div>
     </div>
 
     <script>
@@ -125,6 +119,7 @@
         identity.on('login', user => {
             showUser(user);
             identity.close();
+            initializeNetlifyCMS();
         });
 
         identity.on('logout', () => {
@@ -132,7 +127,6 @@
             document.getElementById('login-btn').style.display = "block";
             document.getElementById('logout-btn').style.display = "none";
             document.querySelector('.editor-container').style.display = "none";
-            document.getElementById('content-editor').style.display = "none";
         });
 
         function showUser(user) {
@@ -151,14 +145,14 @@
         });
 
         document.getElementById('open-cms').addEventListener('click', () => {
-            initializeNetlifyCMS();
+            if (identity.currentUser()) {
+                window.location.href = '/admin'; // Redirect to /admin to open CMS
+            }
         });
 
         function initializeNetlifyCMS() {
             if (identity.currentUser()) {
                 netlifyCMS.init();
-                document.querySelector('.editor-container').style.display = "none"; // Hide the button and content editor UI
-                document.getElementById('content-editor').style.display = "none"; // Hide any custom editor content
             }
         }
     </script>
