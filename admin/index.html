@@ -2,73 +2,82 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Custom Auth UI</title>
+  <title>Admin Panel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <style>
-
     body {
-      background-color: #f4f4f4;
-      font-family: 'Arial', sans-serif;
-      color: #333;
+      font-family: Arial, sans-serif;
       text-align: center;
       padding: 50px;
+      background-color: #f4f4f4;
     }
     .login-container {
-      background-color: #fff;
+      background: white;
       max-width: 400px;
       margin: 0 auto;
       padding: 30px;
       border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      padding: 30px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-    .login-container h1 {
-      margin-bottom: 20px;
-    }
-    .login-btn {
-      background-color: #db4437; 
-      color: #fff;
-      border: none;
+    .login-btn, .logout-btn {
+      background: #0073e6;
+      color: white;
       padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 4px;
+      border: none;
       cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
     }
-    .login-btn:hover {
-      background-color: #c33d2d;
+    .login-btn:hover, .logout-btn:hover {
+      background: #005bb5;
     }
   </style>
 </head>
 <body>
+
   <div class="login-container">
-    <h1>Welcome to Our Admin Panel</h1>
-    <p>Please log in using your Google account to continue.</p>
-    <button id="google-login" class="login-btn">Sign in with Google</button>
+    <h1>Welcome to Admin Panel</h1>
+    <p id="user-info">Please sign in to continue</p>
+    <button id="login-btn" class="login-btn">Sign in</button>
+    <button id="logout-btn" class="logout-btn" style="display: none;">Log out</button>
   </div>
-  
 
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>
+    const identity = netlifyIdentity;
 
-    if (window.netlifyIdentity) {
-      netlifyIdentity.init();
-    }
-
-    document.getElementById('google-login').addEventListener('click', function() {
-      if (window.netlifyIdentity) {
-        netlifyIdentity.open(); 
-      } else {
-        alert("Netlify Identity is not loaded. Please check your configuration.");
+    identity.on('init', user => {
+      if (user) {
+        showUser(user);
       }
     });
 
+    identity.on('login', user => {
+      showUser(user);
+      identity.close();
+      window.location.href = '/admin';
+    });
 
-    if (window.netlifyIdentity) {
-      netlifyIdentity.on("login", (user) => {
-        console.log("User logged in:", user);
-        window.location.href = "/admin/";  
-      });
+    identity.on('logout', () => {
+      document.getElementById('user-info').innerText = "Please sign in to continue";
+      document.getElementById('login-btn').style.display = "block";
+      document.getElementById('logout-btn').style.display = "none";
+    });
+
+    document.getElementById('login-btn').addEventListener('click', () => {
+      identity.open();
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      identity.logout();
+    });
+
+    function showUser(user) {
+      document.getElementById('user-info').innerHTML = `Logged in as <strong>${user.email}</strong>`;
+      document.getElementById('login-btn').style.display = "none";
+      document.getElementById('logout-btn').style.display = "block";
     }
   </script>
+
 </body>
 </html>
