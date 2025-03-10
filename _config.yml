@@ -1,0 +1,5 @@
+title: Lex Eagle – Legal News
+collections:
+  articles:
+    output: true
+    permalink: /articles/:slug/
