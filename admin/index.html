@@ -1,24 +1,81 @@
- <title>Admin Panel</title>
- </head>
- <body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Panel</title>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
 
-   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-   
-   <script>
+        .login-container {
+            padding: 50px;
+            background-color: white;
+            margin-top: 100px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
 
-     if (window.netlifyIdentity) {
-       window.netlifyIdentity.on("init", user => {
-         if (!user) {
+        .login-btn {
+            background: #0073e6;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
 
-           window.netlifyIdentity.on("login", () => {
-             document.location.href = "/admin/";
-           });
-         }
-       });
-     }
-   </script>
- 
+        .login-btn:hover {
+            background: #005bb5;
+        }
+    </style>
+</head>
+<body>
 
-   <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
- </body>
- </html>
+    <div class="login-container">
+        <h1>Welcome to Admin Panel</h1>
+        <p>Please sign in to access the content editor.</p>
+        <button id="login-btn" class="login-btn">Sign In</button>
+    </div>
+
+    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+
+    <script>
+        const identity = window.netlifyIdentity;
+
+        if (identity) {
+            identity.on('init', user => {
+                if (user) {
+                    document.location.href = '/admin/';
+                } else {
+                    document.getElementById('login-btn').style.display = 'block';
+                }
+            });
+
+            document.getElementById('login-btn').addEventListener('click', () => {
+                identity.open();
+            });
+
+            identity.on('login', user => {
+                document.location.href = '/admin/';
+            });
+
+            identity.on('init', user => {
+                if (user) {
+                    netlifyCMS.init();
+                }
+            });
+        } else {
+            console.error("Netlify Identity is not available.");
+        }
+    </script>
+</body>
+</html>
