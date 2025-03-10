@@ -1,69 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Custom Auth UI</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lex Eagle Admin Panel</title>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/netlify-cms@2.16.0/dist/netlify-cms.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
 
-    body {
-      background-color: #f4f4f4;
-      font-family: 'Arial', sans-serif;
-      color: #333;
-      text-align: center;
-      padding: 50px;
-    }
-    .login-container {
-      background-color: #fff;
-      max-width: 400px;
-      margin: 0 auto;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .login-container h1 {
-      margin-bottom: 20px;
-    }
-    .login-btn {
-      background-color: #db4437; 
-      color: #fff;
-      border: none;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .login-btn:hover {
-      background-color: #c33d2d;
-    }
-  </style>
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .login-container {
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .login-container h1 {
+            margin-bottom: 20px;
+        }
+
+        .login-btn,
+        .logout-btn {
+            background: #0073e6;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .login-btn:hover,
+        .logout-btn:hover {
+            background: #005bb5;
+        }
+
+        .editor-container {
+            display: none;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        #content-editor {
+            margin-top: 30px;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #content-editor h2 {
+            margin-bottom: 20px;
+        }
+
+        #content-editor textarea {
+            width: 100%;
+            height: 300px;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .editor-btn {
+            background: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .editor-btn:hover {
+            background: #218838;
+        }
+    </style>
 </head>
+
 <body>
-  <div class="login-container">
-    <h1>Welcome to Our Admin Panel</h1>
-    <p>Please log in using your Google account to continue.</p>
-    <button id="google-login" class="login-btn">Sign in with Google</button>
-  </div>
-  
 
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script>
+    <div class="container">
+        <div class="login-container">
+            <h1>Welcome to the Custom Admin Panel</h1>
+            <p id="user-info">Please sign in to continue</p>
+            <button id="login-btn" class="login-btn">Sign In</button>
+            <button id="logout-btn" class="logout-btn" style="display: none;">Log Out</button>
+        </div>
 
-    netlifyIdentity.init();
+        <div class="editor-container">
+            <h2>Content Editor</h2>
+            <button id="open-cms" class="editor-btn">Open Content Editor</button>
+        </div>
 
-    document.getElementById('google-login').addEventListener('click', function() {
-  
-      netlifyIdentity.authenticate('google')
-        .then(user => {
-          console.log('User logged in:', user);
-       
-          window.location.href = "/admin/";
-        })
-        .catch(err => {
-          console.error('Authentication error:', err);
-          alert('Authentication failed. Please try again.');
+        <div id="content-editor" style="display: none;">
+            <h2>Editing Post</h2>
+            <textarea id="post-content" placeholder="Start editing your content..."></textarea>
+            <button id="save-post" class="editor-btn">Save Post</button>
+        </div>
+    </div>
+
+    <script>
+        const identity = netlifyIdentity;
+
+        identity.on('init', user => {
+            if (user) {
+                showUser(user);
+            }
         });
-    });
-  </script>
+
+        identity.on('login', user => {
+            showUser(user);
+            identity.close();
+        });
+
+        identity.on('logout', () => {
+            document.getElementById('user-info').innerText = "Please sign in to continue";
+            document.getElementById('login-btn').style.display = "block";
+            document.getElementById('logout-btn').style.display = "none";
+            document.querySelector('.editor-container').style.display = "none";
+            document.getElementById('content-editor').style.display = "none";
+        });
+
+        function showUser(user) {
+            document.getElementById('user-info').innerHTML = `Logged in as <strong>${user.email}</strong>`;
+            document.getElementById('login-btn').style.display = "none";
+            document.getElementById('logout-btn').style.display = "block";
+            document.querySelector('.editor-container').style.display = "block";
+        }
+
+        document.getElementById('login-btn').addEventListener('click', () => {
+            identity.open();
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            identity.logout();
+        });
+
+        document.getElementById('open-cms').addEventListener('click', () => {
+            initializeNetlifyCMS();
+        });
+
+        function initializeNetlifyCMS() {
+            if (identity.currentUser()) {
+                netlifyCMS.init();
+                document.getElementById('content-editor').style.display = "block";
+            }
+        }
+
+        document.getElementById('save-post').addEventListener('click', () => {
+            const updatedContent = document.getElementById('post-content').value;
+            alert('Content saved: ' + updatedContent);
+        });
+    </script>
+
 </body>
+
 </html>
